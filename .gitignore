@@ -1,0 +1,121 @@
+# Python
+__pycache__/
+__pycache__
+*.pyc
+*.pyo
+*.egg
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+
+# Linter / type checker cache
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Training outputs
+outputs/
+logs/
+wandb/
+checkpoints/
+
+# Worktrees
+.worktrees/
+
+# Claude
+.claude/
+CLAUDE.md
+AGENTS.md
+
+# Codex
+.codex
+
+# Pixi
+.pixi/
+
+# Release assets — users download + unzip + rename these into the repo
+# root per docs/sim2real/setup.md §3; they shouldn't be committed.
+wuji-mjlab-*-assets.zip
+wuji-mjlab-*-assets/
+/release-assets/
+
+experiments/
+*.npy
+*.npz
+*.log
+
+# Model files
+*.pt
+*.pth
+*.onnx
+*.pkl
+*.pickle
+
+# Video files
+*.mp4
+*.avi
+*.mov
+*.mkv
+videos/
+
+# Scene files
+*.usd
+
+# MuJoCo
+MUJOCO_LOG.TXT
+
+# GPU cache
+nv_shadercache/
+
+# Project specific
+MvSdkLog/
+MVS-*.deb
+pyrightconfig.json
+wuji-mjlab.code-workspace
+
+# Environment / secrets
+.env
+*.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Docs (local working files)
+docs/internal/
+docs/design/
+docs/plans/
+docs/dev/
+docs/superpowers/
+
+# Intentionally local scratch/debug workspace. If we add tracked fixtures, they
+# should live in a separate non-ignored test-data path.
+tests/debug/
+
+# Grasp object datasets (hundreds of MB of meshes / manifests). Populate
+# src/wuji_mjlab/assets/datasets/grasp_objects/ locally (or set
+# WUJI_GRASP_OBJECT_ROOT to another path).
+src/wuji_mjlab/assets/datasets/grasp_objects/
+
+.codex/
+
+# Local training scratch (untracked).
+src/wuji_mjlab/tasks/reorient/train_scripts/
+
+# Local-only archives, handoff artifacts, and scratch notes.
+/reference/
+/.handoff/
+/.agents/
+/findings.md
+/progress.md
+/task_plan.md
+/MUJOCO_LOG.TXT

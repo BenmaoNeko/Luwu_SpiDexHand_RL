@@ -1,0 +1,280 @@
+<mujoco model="luwu_arm_hand_002_convex">
+  <compiler angle="radian" meshdir="." />
+  <option timestep="0.005" iterations="50" integrator="implicitfast" />
+  <default>
+    <geom solref="0.02 1" solimp="0.9 0.95 0.001" />
+    <joint damping="0.02" armature="0.0002" />
+  </default>
+  <asset>
+    <mesh name="base_link_visual" file="meshes/visual/base_link_visual.stl" />
+    <mesh name="base_link_collision" file="meshes/collision/base_link_collision_hull.stl" />
+    <mesh name="link1_visual" file="meshes/visual/link1_visual.stl" />
+    <mesh name="link1_collision" file="meshes/collision/link1_collision_hull.stl" />
+    <mesh name="link2_visual" file="meshes/visual/link2_visual.stl" />
+    <mesh name="link2_collision" file="meshes/collision/link2_collision_hull.stl" />
+    <mesh name="link3_visual" file="meshes/visual/link3_visual.stl" />
+    <mesh name="link3_collision" file="meshes/collision/link3_collision_hull.stl" />
+    <mesh name="link4_visual" file="meshes/visual/link4_visual.stl" />
+    <mesh name="link4_collision" file="meshes/collision/link4_collision_hull.stl" />
+    <mesh name="link5_visual" file="meshes/visual/link5_visual.stl" />
+    <mesh name="link5_collision" file="meshes/collision/link5_collision_hull.stl" />
+    <mesh name="link6_visual" file="meshes/visual/link6_visual.stl" />
+    <mesh name="link6_collision" file="meshes/collision/link6_collision_hull.stl" />
+    <mesh name="finger1_0_visual" file="meshes/visual/finger1_0_visual.stl" />
+    <mesh name="finger1_0_collision" file="meshes/collision/finger1_0_collision_hull.stl" />
+    <mesh name="finger1_1_visual" file="meshes/visual/finger1_1_visual.stl" />
+    <mesh name="finger1_1_collision" file="meshes/collision/finger1_1_collision_hull.stl" />
+    <mesh name="finger1_2_visual" file="meshes/visual/finger1_2_visual.stl" />
+    <mesh name="finger1_2_collision" file="meshes/collision/finger1_2_collision_hull.stl" />
+    <mesh name="finger1_3_visual" file="meshes/visual/finger1_3_visual.stl" />
+    <mesh name="finger1_3_collision" file="meshes/collision/finger1_3_collision_hull.stl" />
+    <mesh name="finger2_0_visual" file="meshes/visual/finger2_0_visual.stl" />
+    <mesh name="finger2_0_collision" file="meshes/collision/finger2_0_collision_hull.stl" />
+    <mesh name="finger2_1_visual" file="meshes/visual/finger2_1_visual.stl" />
+    <mesh name="finger2_1_collision" file="meshes/collision/finger2_1_collision_hull.stl" />
+    <mesh name="finger2_2_visual" file="meshes/visual/finger2_2_visual.stl" />
+    <mesh name="finger2_2_collision" file="meshes/collision/finger2_2_collision_hull.stl" />
+    <mesh name="finger2_3_visual" file="meshes/visual/finger2_3_visual.stl" />
+    <mesh name="finger2_3_collision" file="meshes/collision/finger2_3_collision_hull.stl" />
+    <mesh name="finger3_0_visual" file="meshes/visual/finger3_0_visual.stl" />
+    <mesh name="finger3_0_collision" file="meshes/collision/finger3_0_collision_hull.stl" />
+    <mesh name="finger3_1_visual" file="meshes/visual/finger3_1_visual.stl" />
+    <mesh name="finger3_1_collision" file="meshes/collision/finger3_1_collision_hull.stl" />
+    <mesh name="finger3_2_visual" file="meshes/visual/finger3_2_visual.stl" />
+    <mesh name="finger3_2_collision" file="meshes/collision/finger3_2_collision_hull.stl" />
+    <mesh name="finger3_3_visual" file="meshes/visual/finger3_3_visual.stl" />
+    <mesh name="finger3_3_collision" file="meshes/collision/finger3_3_collision_hull.stl" />
+    <mesh name="finger4_0_visual" file="meshes/visual/finger4_0_visual.stl" />
+    <mesh name="finger4_0_collision" file="meshes/collision/finger4_0_collision_hull.stl" />
+    <mesh name="finger4_1_visual" file="meshes/visual/finger4_1_visual.stl" />
+    <mesh name="finger4_1_collision" file="meshes/collision/finger4_1_collision_hull.stl" />
+    <mesh name="finger4_2_visual" file="meshes/visual/finger4_2_visual.stl" />
+    <mesh name="finger4_2_collision" file="meshes/collision/finger4_2_collision_hull.stl" />
+    <mesh name="finger4_3_visual" file="meshes/visual/finger4_3_visual.stl" />
+    <mesh name="finger4_3_collision" file="meshes/collision/finger4_3_collision_hull.stl" />
+  </asset>
+  <worldbody>
+    <body name="base_link" pos="0 0 0" quat="1 0 0 0">
+      <inertial pos="-7.5360305e-07 -0.000118215658 0.00526031733" quat="1 0 0 0" mass="0.575739938" diaginertia="0.00119475651 0.000755474677 0.00179809336" />
+      <geom name="base_link_visual_visual" type="mesh" mesh="base_link_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+      <geom name="base_link_collision_collision" type="mesh" mesh="base_link_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+      <body name="link1" pos="0 0 0" quat="1 0 0 0">
+        <inertial pos="-0.00774392134 -0.000239492859 0.0888453785" quat="1 0 0 0" mass="0.148001808" diaginertia="8.10931205e-05 0.000119790822 8.0535213e-05" />
+        <geom name="link1_visual_visual" type="mesh" mesh="link1_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+        <geom name="link1_collision_collision" type="mesh" mesh="link1_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+        <body name="link2" pos="-0.02 0.03925 0.1259" quat="0.707105483 0.70710808 0 0">
+          <inertial pos="0.115748185 0.00270821347 0.0392437788" quat="1 0 0 0" mass="0.570895513" diaginertia="0.000274559248 0.000949963796 0.00106378715" />
+          <geom name="link2_visual_visual" type="mesh" mesh="link2_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+          <geom name="link2_collision_collision" type="mesh" mesh="link2_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+          <body name="link3" pos="0.236 0 0.0045" quat="1 0 0 0">
+            <inertial pos="-0.0955500418 0.0654583454 0.0331637893" quat="1 0 0 0" mass="0.40933585" diaginertia="0.00020067657 0.00067811268 0.000786326105" />
+            <geom name="link3_visual_visual" type="mesh" mesh="link3_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+            <geom name="link3_collision_collision" type="mesh" mesh="link3_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+            <body name="link4" pos="-0.22795 0.072902 -0.0065" quat="0.731688869 0 0 -0.68163876">
+              <inertial pos="-0.0340496373 0.0348427805 0.0403975184" quat="1 0 0 0" mass="0.105229758" diaginertia="5.09505959e-05 7.02134168e-05 8.37936601e-05" />
+              <geom name="link4_visual_visual" type="mesh" mesh="link4_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+              <geom name="link4_collision_collision" type="mesh" mesh="link4_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+              <body name="link5" pos="-0.086963 0.05411 0.04125" quat="0.707105441 0.707108038 -0.000242364825 -0.000242363935">
+                <inertial pos="0.0152892869 0.000111884262 0.0996429422" quat="1 0 0 0" mass="0.558977783" diaginertia="0.000191572383 0.000145697349 0.000117465549" />
+                <geom name="link5_visual_visual" type="mesh" mesh="link5_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+                <geom name="link5_collision_collision" type="mesh" mesh="link5_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                <body name="link6" pos="0.0038 0 0.054" quat="-3.89602236e-06 -0.707106781 -1.29867412e-06 0.707106781">
+                  <inertial pos="2.8645429e-07 -4.15233697e-06 0.0627957008" quat="1 0 0 0" mass="0.160642892" diaginertia="2.81565169e-05 2.83159235e-05 5.14646372e-05" />
+                  <geom name="link6_visual_visual" type="mesh" mesh="link6_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.898039216 0.917647059 0.929411765 1" group="1" contype="0" conaffinity="0" density="0" />
+                  <geom name="link6_collision_collision" type="mesh" mesh="link6_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.898039216 0.917647059 0.929411765 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                  <body name="finger1_0" pos="0.0155 -0.021 0.0893" quat="-3.6732051e-06 1 0 -0">
+                    <inertial pos="8.57092175e-14 0.0124069475 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="4.11613324e-06 5.25531185e-06 4.16454772e-06" />
+                    <geom name="finger1_0_visual_visual" type="mesh" mesh="finger1_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="finger1_0_collision_collision" type="mesh" mesh="finger1_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="joint7" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1.3" />
+                    <body name="finger1_1" pos="0.0166 0.025 0.009" quat="0.707106557 1.27924462e-06 -0.707107005 -1.27924462e-06">
+                      <inertial pos="0.000690383485 0.0146339651 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82479036e-06 1.93397591e-06 1.97132267e-06" />
+                      <geom name="finger1_1_visual_visual" type="mesh" mesh="finger1_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="finger1_1_collision_collision" type="mesh" mesh="finger1_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="joint8" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="finger1_2" pos="0 0.0295 0.0166" quat="0.70710674 0.70710674 0.000242363283 -0.000242363283">
+                        <inertial pos="0.00363373859 2.6010855e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39312899e-06 5.26587134e-06 4.40581986e-06" />
+                        <geom name="finger1_2_visual_visual" type="mesh" mesh="finger1_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="finger1_2_collision_collision" type="mesh" mesh="finger1_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="joint9" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="finger1_3" pos="-0.020989 -0.016614 -0.011" quat="0.707105441 -0.707108038 -0.000242364825 0.000242363935">
+                          <inertial pos="-0.0304523486 -0.00570483444 0.016587399" quat="1 0 0 0" mass="0.0390008664" diaginertia="4.48362084e-06 6.14357759e-06 7.31097249e-06" />
+                          <geom name="finger1_3_visual_visual" type="mesh" mesh="finger1_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="finger1_3_collision_collision" type="mesh" mesh="finger1_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="joint10" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                  <body name="finger2_0" pos="-0.021 -0.0155 0.0893" quat="3.6732051e-06 1 0 0">
+                    <inertial pos="-0.0124069475 1.11138529e-13 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="5.25531185e-06 4.11613324e-06 4.16454772e-06" />
+                    <geom name="finger2_0_visual_visual" type="mesh" mesh="finger2_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="finger2_0_collision_collision" type="mesh" mesh="finger2_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="joint11" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1" />
+                    <body name="finger2_1" pos="-0.025 0.0166 0.009" quat="0.500173133 0.50017497 -0.49982497 0.499826806">
+                      <inertial pos="0.000680351639 0.0146344349 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82459798e-06 1.93416829e-06 1.97132267e-06" />
+                      <geom name="finger2_1_visual_visual" type="mesh" mesh="finger2_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="finger2_1_collision_collision" type="mesh" mesh="finger2_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="joint12" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="finger2_2" pos="-2.0222e-05 0.0295 0.0166" quat="0.707105441 0.707108038 0.000242364825 0.000242363935">
+                        <inertial pos="0.00363375557 2.35198963e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39312852e-06 5.26587181e-06 4.40581986e-06" />
+                        <geom name="finger2_2_visual_visual" type="mesh" mesh="finger2_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="finger2_2_collision_collision" type="mesh" mesh="finger2_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="joint13" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="finger2_3" pos="-0.021 -0.0166 -0.011" quat="0.707105441 -0.707108038 -0.000242363935 -0.000242364825">
+                          <inertial pos="-0.0304484309 -0.00572570852 0.0165873989" quat="1 0 0 0" mass="0.0390008668" diaginertia="4.48600245e-06 6.14119626e-06 7.31097276e-06" />
+                          <geom name="finger2_3_visual_visual" type="mesh" mesh="finger2_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="finger2_3_collision_collision" type="mesh" mesh="finger2_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="joint14" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                  <body name="finger3_0" pos="-0.0155 0.021 0.0893" quat="3.6732051e-06 1 0 0">
+                    <inertial pos="-9.41538514e-14 -0.0124069475 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="4.11613324e-06 5.25531185e-06 4.16454772e-06" />
+                    <geom name="finger3_0_visual_visual" type="mesh" mesh="finger3_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="finger3_0_collision_collision" type="mesh" mesh="finger3_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="joint15" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1" />
+                    <body name="finger3_1" pos="-0.0166 -0.025 0.009" quat="-3.87986643e-06 0.707106985 1.31483005e-06 0.707106577">
+                      <inertial pos="0.000690383485 0.0146339651 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82479036e-06 1.93397591e-06 1.97132267e-06" />
+                      <geom name="finger3_1_visual_visual" type="mesh" mesh="finger3_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="finger3_1_collision_collision" type="mesh" mesh="finger3_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="joint16" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="finger3_2" pos="0 0.0295 0.0166" quat="0.707105441 0.707108038 -0.000242363935 0.000242364825">
+                        <inertial pos="0.00363377084 2.10289264e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39313169e-06 5.26586864e-06 4.40581986e-06" />
+                        <geom name="finger3_2_visual_visual" type="mesh" mesh="finger3_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="finger3_2_collision_collision" type="mesh" mesh="finger3_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="joint17" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="finger3_3" pos="-0.021011 -0.016586 -0.011" quat="0.707105441 -0.707108038 0.000242364825 -0.000242363935">
+                          <inertial pos="-0.0304523485 -0.00570483441 0.0165873989" quat="1 0 0 0" mass="0.0390008662" diaginertia="4.48362084e-06 6.14357773e-06 7.31097266e-06" />
+                          <geom name="finger3_3_visual_visual" type="mesh" mesh="finger3_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="finger3_3_collision_collision" type="mesh" mesh="finger3_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="joint18" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                  <body name="finger4_0" pos="0.021 0.0155 0.0893" quat="-3.6732051e-06 1 0 -0">
+                    <inertial pos="0.0124069475 -7.17551019e-14 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="5.25531185e-06 4.11613324e-06 4.16454772e-06" />
+                    <geom name="finger4_0_visual_visual" type="mesh" mesh="finger4_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="finger4_0_collision_collision" type="mesh" mesh="finger4_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="joint19" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1.3" />
+                    <body name="finger4_1" pos="0.025 -0.0166 0.009" quat="0.500173133 -0.50017497 -0.49982497 -0.499826806">
+                      <inertial pos="0.000700415006 0.0146334884 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82498284e-06 1.93378342e-06 1.97132267e-06" />
+                      <geom name="finger4_1_visual_visual" type="mesh" mesh="finger4_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="finger4_1_collision_collision" type="mesh" mesh="finger4_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="joint20" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="finger4_2" pos="2.0222e-05 0.0295 0.0166" quat="0.707105441 0.707108038 -0.000242364825 -0.000242363935">
+                        <inertial pos="0.00363375557 2.35198963e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39312852e-06 5.26587181e-06 4.40581986e-06" />
+                        <geom name="finger4_2_visual_visual" type="mesh" mesh="finger4_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="finger4_2_collision_collision" type="mesh" mesh="finger4_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="joint21" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="finger4_3" pos="-0.021 -0.0166 -0.011" quat="0.707105441 -0.707108038 0.000242363935 0.000242364825">
+                          <inertial pos="-0.0304562523 -0.0056839579 0.0165873989" quat="1 0 0 0" mass="0.0390008665" diaginertia="4.48124095e-06 6.14595777e-06 7.3109728e-06" />
+                          <geom name="finger4_3_visual_visual" type="mesh" mesh="finger4_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.647058824 0.854901961 0.533333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="finger4_3_collision_collision" type="mesh" mesh="finger4_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.647058824 0.854901961 0.533333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="joint22" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="preview_cube" pos="-0.0264848718 8.59749199e-08 0.40649396">
+      <geom name="preview_cube_collision" type="box" size="0.025 0.025 0.025" rgba="0.95 0.45 0.1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+    </body>
+    <body name="preview_grid">
+      <geom name="grid_x_0" type="box" pos="-0.45 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_1" type="box" pos="-0.4 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_2" type="box" pos="-0.35 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_3" type="box" pos="-0.3 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_4" type="box" pos="-0.25 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_5" type="box" pos="-0.2 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_6" type="box" pos="-0.15 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_7" type="box" pos="-0.1 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_8" type="box" pos="-0.05 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_9" type="box" pos="0 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_10" type="box" pos="0.05 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_11" type="box" pos="0.1 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_12" type="box" pos="0.15 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_13" type="box" pos="0.2 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_14" type="box" pos="0.25 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_15" type="box" pos="0.3 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_16" type="box" pos="0.35 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_17" type="box" pos="0.4 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_x_18" type="box" pos="0.45 0 -0.135" size="0.0007 0.45 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_0" type="box" pos="0 -0.45 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_1" type="box" pos="0 -0.4 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_2" type="box" pos="0 -0.35 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_3" type="box" pos="0 -0.3 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_4" type="box" pos="0 -0.25 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_5" type="box" pos="0 -0.2 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_6" type="box" pos="0 -0.15 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_7" type="box" pos="0 -0.1 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_8" type="box" pos="0 -0.05 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_9" type="box" pos="0 0 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_10" type="box" pos="0 0.05 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_11" type="box" pos="0 0.1 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_12" type="box" pos="0 0.15 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_13" type="box" pos="0 0.2 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_14" type="box" pos="0 0.25 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_15" type="box" pos="0 0.3 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_16" type="box" pos="0 0.35 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_17" type="box" pos="0 0.4 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="grid_y_18" type="box" pos="0 0.45 -0.1344" size="0.45 0.0007 0.0006" rgba="0.28 0.31 0.36 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="axis_x" type="box" pos="0.225 0 -0.1338" size="0.225 0.002 0.0012" rgba="0.86 0.18 0.16 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="axis_y" type="box" pos="0 0.225 -0.13356" size="0.002 0.225 0.0012" rgba="0.18 0.66 0.30 1" group="3" contype="0" conaffinity="0" density="0" />
+      <geom name="axis_z" type="box" pos="0 0 -0.035" size="0.002 0.002 0.1" rgba="0.16 0.38 0.86 1" group="3" contype="0" conaffinity="0" density="0" />
+    </body>
+  </worldbody>
+  <contact>
+    <exclude body1="base_link" body2="link1" />
+    <exclude body1="link1" body2="link2" />
+    <exclude body1="link2" body2="link3" />
+    <exclude body1="link3" body2="link4" />
+    <exclude body1="link4" body2="link5" />
+    <exclude body1="link5" body2="link6" />
+    <exclude body1="link6" body2="finger1_0" />
+    <exclude body1="finger1_0" body2="finger1_1" />
+    <exclude body1="finger1_1" body2="finger1_2" />
+    <exclude body1="finger1_2" body2="finger1_3" />
+    <exclude body1="link6" body2="finger2_0" />
+    <exclude body1="finger2_0" body2="finger2_1" />
+    <exclude body1="finger2_1" body2="finger2_2" />
+    <exclude body1="finger2_2" body2="finger2_3" />
+    <exclude body1="link6" body2="finger3_0" />
+    <exclude body1="finger3_0" body2="finger3_1" />
+    <exclude body1="finger3_1" body2="finger3_2" />
+    <exclude body1="finger3_2" body2="finger3_3" />
+    <exclude body1="link6" body2="finger4_0" />
+    <exclude body1="finger4_0" body2="finger4_1" />
+    <exclude body1="finger4_1" body2="finger4_2" />
+    <exclude body1="finger4_2" body2="finger4_3" />
+  </contact>
+  <actuator>
+    <position name="joint7_position" joint="joint7" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1.3" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint8_position" joint="joint8" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint9_position" joint="joint9" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint10_position" joint="joint10" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint11_position" joint="joint11" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint12_position" joint="joint12" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint13_position" joint="joint13" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint14_position" joint="joint14" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint15_position" joint="joint15" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint16_position" joint="joint16" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint17_position" joint="joint17" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint18_position" joint="joint18" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint19_position" joint="joint19" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1.3" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint20_position" joint="joint20" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint21_position" joint="joint21" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="joint22_position" joint="joint22" kp="4" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+  </actuator>
+  <keyframe>
+    <key name="home" qpos="0.610865238 0 0 0 0.610865238 0 0 0 0.610865238 0 0 0 0.610865238 0 0 0" ctrl="0.610865238 0 0 0 0.610865238 0 0 0 0.610865238 0 0 0 0.610865238 0 0 0" />
+  </keyframe>
+</mujoco>

@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="luwu-arm-hand-002-mjlab">
+  <compiler angle="radian" meshdir="../meshes" />
+  <option timestep="0.005" iterations="50" integrator="implicitfast" />
+  <default>
+    <geom solref="0.02 1" solimp="0.9 0.95 0.001" />
+    <joint damping="0.02" armature="0.0002" />
+  </default>
+  <asset>
+    <mesh name="base_link_visual" file="visual/base_link_visual.stl" />
+    <mesh name="base_link_collision" file="collision/base_link_collision_hull.stl" />
+    <mesh name="link1_visual" file="visual/link1_visual.stl" />
+    <mesh name="link1_collision" file="collision/link1_collision_hull.stl" />
+    <mesh name="link2_visual" file="visual/link2_visual.stl" />
+    <mesh name="link2_collision" file="collision/link2_collision_hull.stl" />
+    <mesh name="link3_visual" file="visual/link3_visual.stl" />
+    <mesh name="link3_collision" file="collision/link3_collision_hull.stl" />
+    <mesh name="link4_visual" file="visual/link4_visual.stl" />
+    <mesh name="link4_collision" file="collision/link4_collision_hull.stl" />
+    <mesh name="link5_visual" file="visual/link5_visual.stl" />
+    <mesh name="link5_collision" file="collision/link5_collision_hull.stl" />
+    <mesh name="link6_visual" file="visual/link6_visual.stl" />
+    <mesh name="link6_collision" file="visual/link6_visual.stl" />
+    <mesh name="finger1_0_visual" file="visual/finger1_0_visual.stl" />
+    <mesh name="finger1_0_collision" file="visual/finger1_0_visual.stl" />
+    <mesh name="finger1_1_visual" file="visual/finger1_1_visual.stl" />
+    <mesh name="finger1_1_collision" file="visual/finger1_1_visual.stl" />
+    <mesh name="finger1_2_visual" file="visual/finger1_2_visual.stl" />
+    <mesh name="finger1_2_collision" file="visual/finger1_2_visual.stl" />
+    <mesh name="finger1_3_visual" file="visual/finger1_3_visual.stl" />
+    <mesh name="finger1_3_collision" file="visual/finger1_3_visual.stl" />
+    <mesh name="finger2_0_visual" file="visual/finger2_0_visual.stl" />
+    <mesh name="finger2_0_collision" file="visual/finger2_0_visual.stl" />
+    <mesh name="finger2_1_visual" file="visual/finger2_1_visual.stl" />
+    <mesh name="finger2_1_collision" file="visual/finger2_1_visual.stl" />
+    <mesh name="finger2_2_visual" file="visual/finger2_2_visual.stl" />
+    <mesh name="finger2_2_collision" file="visual/finger2_2_visual.stl" />
+    <mesh name="finger2_3_visual" file="visual/finger2_3_visual.stl" />
+    <mesh name="finger2_3_collision" file="visual/finger2_3_visual.stl" />
+    <mesh name="finger3_0_visual" file="visual/finger3_0_visual.stl" />
+    <mesh name="finger3_0_collision" file="visual/finger3_0_visual.stl" />
+    <mesh name="finger3_1_visual" file="visual/finger3_1_visual.stl" />
+    <mesh name="finger3_1_collision" file="visual/finger3_1_visual.stl" />
+    <mesh name="finger3_2_visual" file="visual/finger3_2_visual.stl" />
+    <mesh name="finger3_2_collision" file="visual/finger3_2_visual.stl" />
+    <mesh name="finger3_3_visual" file="visual/finger3_3_visual.stl" />
+    <mesh name="finger3_3_collision" file="visual/finger3_3_visual.stl" />
+    <mesh name="finger4_0_visual" file="visual/finger4_0_visual.stl" />
+    <mesh name="finger4_0_collision" file="visual/finger4_0_visual.stl" />
+    <mesh name="finger4_1_visual" file="visual/finger4_1_visual.stl" />
+    <mesh name="finger4_1_collision" file="visual/finger4_1_visual.stl" />
+    <mesh name="finger4_2_visual" file="visual/finger4_2_visual.stl" />
+    <mesh name="finger4_2_collision" file="visual/finger4_2_visual.stl" />
+    <mesh name="finger4_3_visual" file="visual/finger4_3_visual.stl" />
+    <mesh name="finger4_3_collision" file="visual/finger4_3_visual.stl" />
+  </asset>
+  <worldbody>
+    <body name="base_link" pos="0 0 0" quat="1 0 0 0">
+      <inertial pos="-7.5360305e-07 -0.000118215658 0.00526031733" quat="1 0 0 0" mass="0.575739938" diaginertia="0.00119475651 0.000755474677 0.00179809336" />
+      <geom name="base_link_visual" type="mesh" mesh="base_link_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+      <geom name="base_link_col" type="mesh" mesh="base_link_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+      <body name="link1" pos="0 0 0" quat="1 0 0 0">
+        <inertial pos="-0.00774392134 -0.000239492859 0.0888453785" quat="1 0 0 0" mass="0.148001808" diaginertia="8.10931205e-05 0.000119790822 8.0535213e-05" />
+        <geom name="link1_visual" type="mesh" mesh="link1_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+        <geom name="link1_col" type="mesh" mesh="link1_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+        <body name="link2" pos="-0.02 0.03925 0.1259" quat="0.707105483 0.70710808 0 0">
+          <inertial pos="0.115748185 0.00270821347 0.0392437788" quat="1 0 0 0" mass="0.570895513" diaginertia="0.000274559248 0.000949963796 0.00106378715" />
+          <geom name="link2_visual" type="mesh" mesh="link2_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+          <geom name="link2_col" type="mesh" mesh="link2_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+          <body name="link3" pos="0.236 0 0.0045" quat="1 0 0 0">
+            <inertial pos="-0.0955500418 0.0654583454 0.0331637893" quat="1 0 0 0" mass="0.40933585" diaginertia="0.00020067657 0.00067811268 0.000786326105" />
+            <geom name="link3_visual" type="mesh" mesh="link3_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+            <geom name="link3_col" type="mesh" mesh="link3_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+            <body name="link4" pos="-0.22795 0.072902 -0.0065" quat="0.731688869 0 0 -0.68163876">
+              <inertial pos="-0.0340496373 0.0348427805 0.0403975184" quat="1 0 0 0" mass="0.105229758" diaginertia="5.09505959e-05 7.02134168e-05 8.37936601e-05" />
+              <geom name="link4_visual" type="mesh" mesh="link4_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+              <geom name="link4_col" type="mesh" mesh="link4_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+              <body name="link5" pos="-0.086963 0.05411 0.04125" quat="0.707105441 0.707108038 -0.000242364825 -0.000242363935">
+                <inertial pos="0.0152892869 0.000111884262 0.0996429422" quat="1 0 0 0" mass="0.558977783" diaginertia="0.000191572383 0.000145697349 0.000117465549" />
+                <geom name="link5_visual" type="mesh" mesh="link5_visual" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="1" contype="0" conaffinity="0" density="0" />
+                <geom name="link5_col" type="mesh" mesh="link5_collision" pos="0 0 0" quat="1 0 0 0" rgba="1 1 1 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                <body name="right_palm_link" pos="0.0038 0 0.054" quat="-3.89602236e-06 -0.707106781 -1.29867412e-06 0.707106781">
+                  <inertial pos="2.8645429e-07 -4.15233697e-06 0.0627957008" quat="1 0 0 0" mass="0.160642892" diaginertia="2.81565169e-05 2.83159235e-05 5.14646372e-05" />
+                  <geom name="right_palm_link_visual" type="mesh" mesh="link6_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.898039216 0.917647059 0.929411765 1" group="1" contype="0" conaffinity="0" density="0" />
+                  <geom name="right_palm_collision" type="mesh" mesh="link6_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.898039216 0.917647059 0.929411765 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                  <!-- Thin palm-pad support for stable dynamic cube placement. The original STL
+                       collision above remains active; this models the compliant flat pad
+                       beneath the cube without replacing the high-resolution mesh. -->
+                  <geom name="right_palm_support_collision" type="box" pos="-0.001856 0 0.0985711" quat="0.9993856 0 0.0350482 0" size="0.03 0.03 0.0005" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" solref="0.01 1" solimp="0.95 0.99 0.001" density="0" />
+                  <body name="right_finger1_link1" pos="0.0155 -0.021 0.0893" quat="-3.6732051e-06 1 0 -0">
+                    <inertial pos="8.57092175e-14 0.0124069475 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="4.11613324e-06 5.25531185e-06 4.16454772e-06" />
+                    <geom name="right_finger1_link1_visual" type="mesh" mesh="finger1_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="right_finger1_link1_col" type="mesh" mesh="finger1_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="right_finger1_joint1" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1.3" />
+                    <body name="right_finger1_link2" pos="0.0166 0.025 0.009" quat="0.707106557 1.27924462e-06 -0.707107005 -1.27924462e-06">
+                      <inertial pos="0.000690383485 0.0146339651 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82479036e-06 1.93397591e-06 1.97132267e-06" />
+                      <geom name="right_finger1_link2_visual" type="mesh" mesh="finger1_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="right_finger1_link2_col" type="mesh" mesh="finger1_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="right_finger1_joint2" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="right_finger1_link3" pos="0 0.0295 0.0166" quat="0.70710674 0.70710674 0.000242363283 -0.000242363283">
+                        <inertial pos="0.00363373859 2.6010855e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39312899e-06 5.26587134e-06 4.40581986e-06" />
+                        <geom name="right_finger1_link3_visual" type="mesh" mesh="finger1_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="right_finger1_link3_col" type="mesh" mesh="finger1_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="right_finger1_joint3" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="right_finger1_link4" pos="-0.020989 -0.016614 -0.011" quat="0.707105441 -0.707108038 -0.000242364825 0.000242363935">
+                          <inertial pos="-0.0304523486 -0.00570483444 0.016587399" quat="1 0 0 0" mass="0.0390008664" diaginertia="4.48362084e-06 6.14357759e-06 7.31097249e-06" />
+                          <geom name="right_finger1_link4_visual" type="mesh" mesh="finger1_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="right_finger1_link4_col" type="mesh" mesh="finger1_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="right_finger1_joint4" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                          <site name="right_finger1_tip" pos="-0.0624586244 -0.022904776 0.0164995937" group="4" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                  <body name="right_finger2_link1" pos="-0.021 -0.0155 0.0893" quat="3.6732051e-06 1 0 0">
+                    <inertial pos="-0.0124069475 1.11138529e-13 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="5.25531185e-06 4.11613324e-06 4.16454772e-06" />
+                    <geom name="right_finger2_link1_visual" type="mesh" mesh="finger2_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="right_finger2_link1_col" type="mesh" mesh="finger2_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="right_finger2_joint1" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1" />
+                    <body name="right_finger2_link2" pos="-0.025 0.0166 0.009" quat="0.500173133 0.50017497 -0.49982497 0.499826806">
+                      <inertial pos="0.000680351639 0.0146344349 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82459798e-06 1.93416829e-06 1.97132267e-06" />
+                      <geom name="right_finger2_link2_visual" type="mesh" mesh="finger2_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="right_finger2_link2_col" type="mesh" mesh="finger2_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="right_finger2_joint2" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="right_finger2_link3" pos="-2.0222e-05 0.0295 0.0166" quat="0.707105441 0.707108038 0.000242364825 0.000242363935">
+                        <inertial pos="0.00363375557 2.35198963e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39312852e-06 5.26587181e-06 4.40581986e-06" />
+                        <geom name="right_finger2_link3_visual" type="mesh" mesh="finger2_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="right_finger2_link3_col" type="mesh" mesh="finger2_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="right_finger2_joint3" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="right_finger2_link4" pos="-0.021 -0.0166 -0.011" quat="0.707105441 -0.707108038 -0.000242363935 -0.000242364825">
+                          <inertial pos="-0.0304484309 -0.00572570852 0.0165873989" quat="1 0 0 0" mass="0.0390008668" diaginertia="4.48600245e-06 6.14119626e-06 7.31097276e-06" />
+                          <geom name="right_finger2_link4_visual" type="mesh" mesh="finger2_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="right_finger2_link4_col" type="mesh" mesh="finger2_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="right_finger2_joint4" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                          <site name="right_finger2_tip" pos="-0.0624413935 -0.0229444056 0.0165132104" group="4" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                  <body name="right_finger3_link1" pos="-0.0155 0.021 0.0893" quat="3.6732051e-06 1 0 0">
+                    <inertial pos="-9.41538514e-14 -0.0124069475 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="4.11613324e-06 5.25531185e-06 4.16454772e-06" />
+                    <geom name="right_finger3_link1_visual" type="mesh" mesh="finger3_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="right_finger3_link1_col" type="mesh" mesh="finger3_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="right_finger3_joint1" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1" />
+                    <body name="right_finger3_link2" pos="-0.0166 -0.025 0.009" quat="-3.87986643e-06 0.707106985 1.31483005e-06 0.707106577">
+                      <inertial pos="0.000690383485 0.0146339651 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82479036e-06 1.93397591e-06 1.97132267e-06" />
+                      <geom name="right_finger3_link2_visual" type="mesh" mesh="finger3_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="right_finger3_link2_col" type="mesh" mesh="finger3_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="right_finger3_joint2" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="right_finger3_link3" pos="0 0.0295 0.0166" quat="0.707105441 0.707108038 -0.000242363935 0.000242364825">
+                        <inertial pos="0.00363377084 2.10289264e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39313169e-06 5.26586864e-06 4.40581986e-06" />
+                        <geom name="right_finger3_link3_visual" type="mesh" mesh="finger3_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="right_finger3_link3_col" type="mesh" mesh="finger3_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="right_finger3_joint3" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="right_finger3_link4" pos="-0.021011 -0.016586 -0.011" quat="0.707105441 -0.707108038 0.000242364825 -0.000242363935">
+                          <inertial pos="-0.0304523485 -0.00570483441 0.0165873989" quat="1 0 0 0" mass="0.0390008662" diaginertia="4.48362084e-06 6.14357773e-06 7.31097266e-06" />
+                          <geom name="right_finger3_link4_visual" type="mesh" mesh="finger3_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="right_finger3_link4_col" type="mesh" mesh="finger3_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="right_finger3_joint4" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                          <site name="right_finger3_tip" pos="-0.0624586244 -0.022904776 0.0164995937" group="4" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                  <body name="right_finger4_link1" pos="0.021 0.0155 0.0893" quat="-3.6732051e-06 1 0 -0">
+                    <inertial pos="0.0124069475 -7.17551019e-14 0.0158231885" quat="1 0 0 0" mass="0.0191216961" diaginertia="5.25531185e-06 4.11613324e-06 4.16454772e-06" />
+                    <geom name="right_finger4_link1_visual" type="mesh" mesh="finger4_0_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                    <geom name="right_finger4_link1_col" type="mesh" mesh="finger4_0_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                    <joint name="right_finger4_joint1" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-0.8 1.3" />
+                    <body name="right_finger4_link2" pos="0.025 -0.0166 0.009" quat="0.500173133 -0.50017497 -0.49982497 -0.499826806">
+                      <inertial pos="0.000700415006 0.0146334884 0.016512341" quat="1 0 0 0" mass="0.0188231331" diaginertia="1.82498284e-06 1.93378342e-06 1.97132267e-06" />
+                      <geom name="right_finger4_link2_visual" type="mesh" mesh="finger4_1_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                      <geom name="right_finger4_link2_col" type="mesh" mesh="finger4_1_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.792156863 0.819607843 0.933333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                      <joint name="right_finger4_joint2" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 0.5" />
+                      <body name="right_finger4_link3" pos="2.0222e-05 0.0295 0.0166" quat="0.707105441 0.707108038 -0.000242364825 -0.000242363935">
+                        <inertial pos="0.00363375557 2.35198963e-05 -0.0110192852" quat="1 0 0 0" mass="0.0254081336" diaginertia="1.39312852e-06 5.26587181e-06 4.40581986e-06" />
+                        <geom name="right_finger4_link3_visual" type="mesh" mesh="finger4_2_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="1" contype="0" conaffinity="0" density="0" />
+                        <geom name="right_finger4_link3_col" type="mesh" mesh="finger4_2_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.309803922 0.309803922 0.309803922 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                        <joint name="right_finger4_joint3" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1.5 1.5" />
+                        <body name="right_finger4_link4" pos="-0.021 -0.0166 -0.011" quat="0.707105441 -0.707108038 0.000242363935 0.000242364825">
+                          <inertial pos="-0.0304562523 -0.0056839579 0.0165873989" quat="1 0 0 0" mass="0.0390008665" diaginertia="4.48124095e-06 6.14595777e-06 7.3109728e-06" />
+                          <geom name="right_finger4_link4_visual" type="mesh" mesh="finger4_3_visual" pos="0 0 0" quat="1 0 0 0" rgba="0.647058824 0.854901961 0.533333333 1" group="1" contype="0" conaffinity="0" density="0" />
+                          <geom name="right_finger4_link4_col" type="mesh" mesh="finger4_3_collision" pos="0 0 0" quat="1 0 0 0" rgba="0.647058824 0.854901961 0.533333333 1" group="2" contype="1" conaffinity="1" friction="0.8 0.05 0.01" />
+                          <joint name="right_finger4_joint4" type="hinge" axis="0 0 -1" limited="true" damping="0.02" range="-1 1" />
+                          <site name="right_finger4_tip" pos="-0.0624727918 -0.022858776 0.0165132104" group="4" />
+                        </body>
+                      </body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <contact>
+    <exclude body1="base_link" body2="link1" />
+    <exclude body1="link1" body2="link2" />
+    <exclude body1="link2" body2="link3" />
+    <exclude body1="link3" body2="link4" />
+    <exclude body1="link4" body2="link5" />
+    <exclude body1="link5" body2="right_palm_link" />
+    <exclude body1="right_palm_link" body2="right_finger1_link1" />
+    <exclude body1="right_finger1_link1" body2="right_finger1_link2" />
+    <exclude body1="right_finger1_link2" body2="right_finger1_link3" />
+    <exclude body1="right_finger1_link3" body2="right_finger1_link4" />
+    <exclude body1="right_palm_link" body2="right_finger2_link1" />
+    <exclude body1="right_finger2_link1" body2="right_finger2_link2" />
+    <exclude body1="right_finger2_link2" body2="right_finger2_link3" />
+    <exclude body1="right_finger2_link3" body2="right_finger2_link4" />
+    <exclude body1="right_palm_link" body2="right_finger3_link1" />
+    <exclude body1="right_finger3_link1" body2="right_finger3_link2" />
+    <exclude body1="right_finger3_link2" body2="right_finger3_link3" />
+    <exclude body1="right_finger3_link3" body2="right_finger3_link4" />
+    <exclude body1="right_palm_link" body2="right_finger4_link1" />
+    <exclude body1="right_finger4_link1" body2="right_finger4_link2" />
+    <exclude body1="right_finger4_link2" body2="right_finger4_link3" />
+    <exclude body1="right_finger4_link3" body2="right_finger4_link4" />
+  </contact>
+  <actuator>
+    <position name="right_finger1_joint1_position" joint="right_finger1_joint1" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1.3" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger1_joint2_position" joint="right_finger1_joint2" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger1_joint3_position" joint="right_finger1_joint3" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger1_joint4_position" joint="right_finger1_joint4" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger2_joint1_position" joint="right_finger2_joint1" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger2_joint2_position" joint="right_finger2_joint2" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger2_joint3_position" joint="right_finger2_joint3" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger2_joint4_position" joint="right_finger2_joint4" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger3_joint1_position" joint="right_finger3_joint1" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger3_joint2_position" joint="right_finger3_joint2" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger3_joint3_position" joint="right_finger3_joint3" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger3_joint4_position" joint="right_finger3_joint4" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger4_joint1_position" joint="right_finger4_joint1" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-0.8 1.3" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger4_joint2_position" joint="right_finger4_joint2" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 0.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger4_joint3_position" joint="right_finger4_joint3" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1.5 1.5" forcelimited="true" forcerange="-0.5 0.5" />
+    <position name="right_finger4_joint4_position" joint="right_finger4_joint4" kp="1" kv="0.15" ctrllimited="true" ctrlrange="-1 1" forcelimited="true" forcerange="-0.5 0.5" />
+  </actuator>
+</mujoco>

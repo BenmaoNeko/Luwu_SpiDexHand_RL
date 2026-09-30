@@ -1,0 +1,283 @@
+{
+  "source_urdf": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM.urdf",
+  "link_count": 23,
+  "mesh_link_count": 23,
+  "hulls": [
+    {
+      "link": "base_link",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/base_link.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/base_link_collision_hull.stl",
+      "vertices": 142,
+      "faces": 280,
+      "extents": [
+        0.14000000059604645,
+        0.20000000298023224,
+        0.07500000111758709
+      ]
+    },
+    {
+      "link": "link1",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/link1.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/link1_collision_hull.stl",
+      "vertices": 204,
+      "faces": 404,
+      "extents": [
+        0.08645447716116905,
+        0.08649999648332596,
+        0.10778438672423363
+      ]
+    },
+    {
+      "link": "link2",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/link2.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/link2_collision_hull.stl",
+      "vertices": 364,
+      "faces": 724,
+      "extents": [
+        0.32325125113129616,
+        0.0877007469534874,
+        0.07850000202651775
+      ]
+    },
+    {
+      "link": "link3",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/link3.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/link3_collision_hull.stl",
+      "vertices": 251,
+      "faces": 498,
+      "extents": [
+        0.28593973629176617,
+        0.12929527275264263,
+        0.0824999981559813
+      ]
+    },
+    {
+      "link": "link4",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/link4.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/link4_collision_hull.stl",
+      "vertices": 184,
+      "faces": 364,
+      "extents": [
+        0.14851426146924496,
+        0.13156972639262676,
+        0.08250000365823518
+      ]
+    },
+    {
+      "link": "link5",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/link5.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/link5_collision_hull.stl",
+      "vertices": 328,
+      "faces": 652,
+      "extents": [
+        0.08799999952316284,
+        0.06599999964237213,
+        0.13599698385223746
+      ]
+    },
+    {
+      "link": "link6",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/link6.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/link6_collision_hull.stl",
+      "vertices": 248,
+      "faces": 492,
+      "extents": [
+        0.05999999865889549,
+        0.05995133891701698,
+        0.05620000138878822
+      ]
+    },
+    {
+      "link": "finger1_0",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger1_0.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger1_0_collision_hull.stl",
+      "vertices": 102,
+      "faces": 200,
+      "extents": [
+        0.03319999948143959,
+        0.04289174359291792,
+        0.03310000162199142
+      ]
+    },
+    {
+      "link": "finger1_1",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger1_1.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger1_1_collision_hull.stl",
+      "vertices": 98,
+      "faces": 192,
+      "extents": [
+        0.027000000700354576,
+        0.034999999683350325,
+        0.02600000030361116
+      ]
+    },
+    {
+      "link": "finger1_2",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger1_2.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger1_2_collision_hull.stl",
+      "vertices": 159,
+      "faces": 314,
+      "extents": [
+        0.0529562346637249,
+        0.03323548287153244,
+        0.026000000536441803
+      ]
+    },
+    {
+      "link": "finger1_3",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger1_3.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger1_3_collision_hull.stl",
+      "vertices": 859,
+      "faces": 1714,
+      "extents": [
+        0.07163917971774936,
+        0.04173020925372839,
+        0.02600000030361116
+      ]
+    },
+    {
+      "link": "finger2_0",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger2_0.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger2_0_collision_hull.stl",
+      "vertices": 102,
+      "faces": 200,
+      "extents": [
+        0.04289174359291792,
+        0.03319999948143959,
+        0.03310000162199145
+      ]
+    },
+    {
+      "link": "finger2_1",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger2_1.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger2_1_collision_hull.stl",
+      "vertices": 107,
+      "faces": 210,
+      "extents": [
+        0.02701336145401001,
+        0.03500856040045619,
+        0.02600000030361116
+      ]
+    },
+    {
+      "link": "finger2_2",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger2_2.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger2_2_collision_hull.stl",
+      "vertices": 136,
+      "faces": 267,
+      "extents": [
+        0.05293438024818897,
+        0.03319999948143959,
+        0.026000000536441803
+      ]
+    },
+    {
+      "link": "finger2_3",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger2_3.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger2_3_collision_hull.stl",
+      "vertices": 859,
+      "faces": 1714,
+      "extents": [
+        0.07162239914759994,
+        0.04175762739032507,
+        0.02600000030361116
+      ]
+    },
+    {
+      "link": "finger3_0",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger3_0.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger3_0_collision_hull.stl",
+      "vertices": 102,
+      "faces": 200,
+      "extents": [
+        0.03319999948143959,
+        0.04289174359291792,
+        0.03310000162199145
+      ]
+    },
+    {
+      "link": "finger3_1",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger3_1.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger3_1_collision_hull.stl",
+      "vertices": 98,
+      "faces": 192,
+      "extents": [
+        0.027000000700354576,
+        0.034999999683350325,
+        0.02600000030361116
+      ]
+    },
+    {
+      "link": "finger3_2",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger3_2.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger3_2_collision_hull.stl",
+      "vertices": 159,
+      "faces": 314,
+      "extents": [
+        0.0529562346637249,
+        0.03323548287153244,
+        0.026000000536441803
+      ]
+    },
+    {
+      "link": "finger3_3",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger3_3.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger3_3_collision_hull.stl",
+      "vertices": 859,
+      "faces": 1714,
+      "extents": [
+        0.07163917971774936,
+        0.04173020925372839,
+        0.02600000030361116
+      ]
+    },
+    {
+      "link": "finger4_0",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger4_0.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger4_0_collision_hull.stl",
+      "vertices": 102,
+      "faces": 200,
+      "extents": [
+        0.04289174359291792,
+        0.03319999948143959,
+        0.03310000162199142
+      ]
+    },
+    {
+      "link": "finger4_1",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger4_1.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger4_1_collision_hull.stl",
+      "vertices": 105,
+      "faces": 206,
+      "extents": [
+        0.027007192373275757,
+        0.03500856040045619,
+        0.02600000030361116
+      ]
+    },
+    {
+      "link": "finger4_2",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger4_2.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger4_2_collision_hull.stl",
+      "vertices": 136,
+      "faces": 267,
+      "extents": [
+        0.05293438024818897,
+        0.03319999948143959,
+        0.026000000536441803
+      ]
+    },
+    {
+      "link": "finger4_3",
+      "source": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/URDF/open_arm_002/luwu_arm_hand_002/\u673a\u68b0\u81c2-\u7075\u5de7\u722a-\u603b\u88c5v3.0-\u5b8c\u6574\u7248URDF.SLDASM/meshes/finger4_3.STL",
+      "path": "/home/benmao/\u684c\u9762/Luwu_Hand_Wuji/generated/luwu_arm_hand_002_convex/meshes/collision/finger4_3_collision_hull.stl",
+      "vertices": 859,
+      "faces": 1714,
+      "extents": [
+        0.0716559193097055,
+        0.04171237722039223,
+        0.02600000030361116
+      ]
+    }
+  ]
+}

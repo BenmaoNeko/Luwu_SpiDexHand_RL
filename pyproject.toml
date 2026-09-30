@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wuji-mjlab"
+version = "0.1.0"
+description = "Reinforcement learning and sim-to-real deployment for the Wuji Hand dexterous manipulation platform, built on mjlab and MuJoCo Warp."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [
+    { name = "Wuji Technology Co., Ltd.", email = "support@wuji.tech" }
+]
+keywords = ["reinforcement-learning", "robotics", "dexterous-manipulation", "mujoco", "sim-to-real", "wujihand"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Robotics",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/wuji-technology/wuji-mjlab"
+Repository = "https://github.com/wuji-technology/wuji-mjlab"
+Issues = "https://github.com/wuji-technology/wuji-mjlab/issues"
+Changelog = "https://github.com/wuji-technology/wuji-mjlab/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/wuji-technology/wuji-mjlab/tree/main/docs"
+
+[project.entry-points."mjlab.tasks"]
+wuji_mjlab = "wuji_mjlab.tasks"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+wuji_mjlab = [
+  "assets/README.md",
+  "assets/robots/luwu_hand/**/*",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+markers = [
+    "slow: marks tests as slow / pollutes mujoco_warp global state (deselect with -m 'not slow')",
+]
+
+[tool.ruff]
+indent-width = 2
+src = ["src/wuji_mjlab"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
+# B008: SceneEntityCfg(...) in default args is the established mjlab
+# term-function convention — keep parity with upstream task examples.
+ignore = ["B008"]
+
+[tool.pyright]
+pythonVersion = "3.11"
+ignore = ["./typings"]
+# pyright is a local-only dev tool; CI skips it. The mjlab pypi wheel's
+# type stubs diverge from the mujoco-warp stubs bundled in the pixi env,
+# so CI runs would surface stub-mismatch noise rather than real bugs. Run
+# `pyright src/wuji_mjlab/` locally — 0 actionable errors expected.

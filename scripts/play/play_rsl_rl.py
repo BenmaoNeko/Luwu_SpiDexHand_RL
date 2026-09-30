@@ -1,0 +1,63 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2026 Wuji Technology Co., Ltd.
+"""Thin play wrapper with IsaacLab-style env/agent overrides.
+
+⚠️ FOR HEADLESS VIDEO RECORDING: use ``scripts/record_video.py`` INSTEAD.
+
+This script spawns an interactive viewer (native MuJoCo or viser), runs forever,
+and falls back to ``ViewerConfig`` defaults of 320×240 when ``--video True`` is
+passed — far too small to see the dexterous hand. ``record_video.py`` is the
+dedicated headless recorder: 640×480, fixed step count, exits cleanly.
+"""
+
+from __future__ import annotations
+
+import argparse
+import sys
+
+import mjlab
+import tyro
+
+import wuji_mjlab.tasks  # noqa: F401
+from mjlab.scripts.play import PlayConfig
+from mjlab.tasks.registry import list_tasks
+from wuji_mjlab.utils.cli_override_utils import (
+  DEFAULT_TASK_ALIASES,
+  resolve_task,
+  split_special_args,
+)
+from wuji_mjlab.utils.play_runner import run_play_with_cfg
+from wuji_mjlab.utils.task_cfg_utils import prepare_task_cfgs
+
+
+def run_play_entry(task_id: str, cfg: PlayConfig, overrides: list[str]) -> None:
+  env_cfg, agent_cfg = prepare_task_cfgs(task_id, overrides, play=True)
+  run_play_with_cfg(task_id, cfg, env_cfg, agent_cfg)
+
+
+def main() -> None:
+  parser = argparse.ArgumentParser(add_help=False)
+  parser.add_argument("--task", type=str, default=None)
+  known, remaining = parser.parse_known_args()
+
+  task_from_equals, tyro_args, overrides = split_special_args(remaining)
+  chosen_task = known.task or task_from_equals or "reorient"
+  task_id = resolve_task(
+    chosen_task,
+    task_aliases=DEFAULT_TASK_ALIASES,
+    all_tasks=list_tasks(),
+  )
+
+  cfg = tyro.cli(
+    PlayConfig,
+    args=tyro_args,
+    default=PlayConfig(),
+    prog=sys.argv[0] + f" --task {chosen_task}",
+    config=mjlab.TYRO_FLAGS,
+  )
+
+  run_play_entry(task_id, cfg, overrides)
+
+
+if __name__ == "__main__":
+  main()
