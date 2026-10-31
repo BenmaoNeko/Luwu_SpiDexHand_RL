@@ -25,7 +25,7 @@ from .luwu_constants import (
 
 LUWU_TIP_SITE_NAMES = (r".*_finger[1-4]_tip",)
 LUWU_TIP_BODY_NAMES = (r".*_finger[1-4]_link4",)
-LUWU_TIP_COLLISION_GEOMS = (r".*_finger[1-4]_link4_col",)
+LUWU_TIP_COLLISION_GEOMS = (r".*_finger[1-4]_link4(?:_.*)?_col",)
 LUWU_UNDESIRED_OBJECT_CONTACT_BODIES = (
   r".*_palm_link",
   r".*_finger[1-4]_link1",
@@ -42,7 +42,7 @@ def luwu_hand_reorient_env_cfg(
   object_geom_pattern: str = "cube",
   tip_object_secondary: ContactMatch | None = None,
 ) -> ManagerBasedRlEnvCfg:
-  """Create the fixed-arm Luwu hand reorientation configuration."""
+  """Create the fixed, horizontal Luwu hand reorientation configuration."""
   cfg = make_reorient_env_cfg(
     play=play,
     num_envs=num_envs,
@@ -56,6 +56,13 @@ def luwu_hand_reorient_env_cfg(
     object_geom_pattern=object_geom_pattern,
     tip_object_secondary=tip_object_secondary,
   )
+  # Each fingertip now has six collision primitives. Reduce per BODY so a
+  # single fingertip still produces one contact channel for actor/skill gates.
+  for sensor in cfg.scene.sensors:
+    if sensor.name == "tip_object_contact":
+      sensor.primary = ContactMatch(
+        mode="body", pattern=LUWU_TIP_BODY_NAMES, entity="robot"
+      )
   cfg.scene.entities = {
     "robot": get_luwu_hand_cfg(),
     "object": get_inhand_object_cfg(),
@@ -80,10 +87,9 @@ def luwu_hand_reorient_env_cfg(
   ):
     cfg.events.pop(event_name, None)
 
-  # The arm is baked into the fixed MJCF at J4=+1.5 rad. Keep the root reset
-  # event with zero pose noise: for fixed-base robots MJLab uses this event to
-  # place each mocap replica at its own environment origin. Removing it would
-  # stack every arm at world (0, 0, 0) while the cube still resets per origin.
+  # The MJCF contains only a fixed horizontal hand. Keep the root reset
+  # event with zero pose noise so MJLab places each fixed-base replica at
+  # its environment origin, consistently with the dynamic cube reset.
   reset_robot_pose = cfg.events["reset_robot_pose"]
   reset_robot_pose.params["pose_range"] = {}
   reset_robot_joints = cfg.events["reset_robot_joints"]
@@ -116,10 +122,8 @@ def luwu_hand_reorient_env_cfg(
   if pd_event is not None:
     pd_event.params["kp_range"] = (0.8, 1.2)
     pd_event.params["kd_range"] = (0.8, 1.2)
-  # Luwu collision geoms are mesh assets: the arm uses convex hulls while the
-  # hand uses the original STL meshes. MuJoCo's generic geom-size randomizer
-  # only supports primitive geoms, so this event must not reach the Luwu
-  # training environment.
+  # Keep the supplied Spidex primitive volumes fixed. The generic size DR
+  # must not resize these calibrated colliders or the remaining arm meshes.
   cfg.events.pop("robot_geom_size", None)
 
   # The four-finger hand has no Wuji thumb softbody geom. Reuse the common
@@ -128,7 +132,7 @@ def luwu_hand_reorient_env_cfg(
   contact_event = cfg.events.get("contact_params_fingers")
   if contact_event is not None:
     contact_event.params["robot_cfg"].geom_names = (
-      r".*finger[1-4]_link[2-4]_col",
+      r".*finger[1-4]_link[2-4](?:_.*)?_col",
     )
 
   # Luwu uses bounded contact-driven shaping. The generic orientation reward

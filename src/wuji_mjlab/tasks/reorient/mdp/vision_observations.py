@@ -189,6 +189,11 @@ def reset_visual_pose_state(
 
 def visual_pose_metadata(env) -> torch.Tensor:
   """Return actor-side visual status as ``(N, 4)`` normalized metadata."""
+  if hasattr(env, '_smart_cube_profile'):
+    if str(env.scene.device) == 'meta':
+      return torch.zeros((env.num_envs, 4), device=env.device)
+    from .smart_cube_observations import get_smart_cube_state, smart_cube_metadata
+    return smart_cube_metadata(get_smart_cube_state(env), env._smart_cube_profile)
   state = get_visual_pose_state(env)
   initialized = state.initialized
   defaults = torch.stack(

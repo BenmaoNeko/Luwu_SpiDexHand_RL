@@ -2,6 +2,8 @@
 # Copyright 2026 Wuji Technology Co., Ltd.
 from __future__ import annotations
 
+import math
+
 import torch
 from mjlab.entity import Entity
 from mjlab.managers.scene_entity_config import SceneEntityCfg
@@ -25,6 +27,13 @@ from wuji_mjlab.utils.math import random_quat_uniform
 from .cage import read_cage_penalty_counter
 from .cube_faces import FACE_NORMALS
 from .event_impl.state import get_reorient_event_state
+from .rubik_solver import solver_face_frame_quaternion
+from .smart_cube_observations import (
+  SmartCubeProfile,
+  get_smart_cube_state,
+  step_imu_model,
+  step_move_model,
+)
 from .vision_observations import (
   get_visual_pose_state,
   step_visual_pose_model,
@@ -33,6 +42,10 @@ from .vision_observations import (
 
 _DEFAULT_ROBOT_CFG = SceneEntityCfg("robot")
 _DEFAULT_OBJECT_CFG = SceneEntityCfg("object")
+
+
+def _rubik_solver_mode(command) -> bool:
+  return bool(getattr(getattr(command, "cfg", None), "solver_mode", False))
 
 
 def _tag_in_palm_pose(device: torch.device | str, dtype: torch.dtype = torch.float32):
@@ -138,7 +151,9 @@ def cube_pos_in_tag(
   return cube_pos_tag
 
 
-def _rubik_cube_quat_in_tag(env, *, vision_dr: bool = False) -> torch.Tensor:
+def _rubik_cube_quat_in_tag(
+  env, *, vision_dr: bool = False, smart_cube_profile: SmartCubeProfile | None = None,
+) -> torch.Tensor:
   """Estimated cube root orientation in the wrist-tag frame."""
   command = env.command_manager.get_term("reorient_command")
   obj = command.object
@@ -147,20 +162,35 @@ def _rubik_cube_quat_in_tag(env, *, vision_dr: bool = False) -> torch.Tensor:
   palm_quat_w = robot.data.body_link_pose_w[:, command.palm_body_id, 3:7]
   _, tag_quat_w = _palm_pose_to_tag_pose(palm_pos_w, palm_quat_w)
   cube_quat_tag = quat_mul(quat_inv(tag_quat_w), obj.data.root_link_quat_w)
-  if vision_dr and env.scene.device != "meta":
+  if smart_cube_profile is not None:
+    env._smart_cube_profile = smart_cube_profile
+  if vision_dr and str(env.scene.device) != "meta" and smart_cube_profile is not None:
+    from .smart_cube_observations import effective_smart_cube_profile
+    cube_quat_tag = step_imu_model(
+      cube_quat_tag, get_smart_cube_state(env), effective_smart_cube_profile(env, smart_cube_profile),
+      step_id=int(env.common_step_counter), step_dt=env.step_dt,
+    )
+  elif vision_dr and env.scene.device != "meta":
     cube_quat_tag = step_visual_pose_model(
       cube_quat_tag,
       get_visual_pose_state(env),
       vision_stage_parameters(3),
       step_id=int(env.common_step_counter),
     )
+  if _rubik_solver_mode(command):
+    cube_quat_tag = quat_mul(
+      cube_quat_tag,
+      solver_face_frame_quaternion(command.target_face_id, dtype=cube_quat_tag.dtype),
+    )
   return cube_quat_tag
 
 
 def rubik_cube_orientation_6d_in_tag(
-  env, vision_dr: bool = False
+  env, vision_dr: bool = False, smart_cube_profile: SmartCubeProfile | None = None,
 ) -> torch.Tensor:
-  quat_tag = _rubik_cube_quat_in_tag(env, vision_dr=vision_dr)
+  quat_tag = _rubik_cube_quat_in_tag(
+    env, vision_dr=vision_dr, smart_cube_profile=smart_cube_profile,
+  )
   rot = matrix_from_quat(quat_tag)
   return rot.reshape(*rot.shape[:-2], 9)[..., 3:]
 
@@ -186,10 +216,39 @@ def rubik_u_face_goal_sincos(
   return torch.stack((torch.sin(angle), torch.cos(angle)), dim=-1)
 
 
+def rubik_smart_cube_angle_sincos(
+  env, command_name: str = "reorient_command", smart_cube_profile: SmartCubeProfile | None = None,
+) -> torch.Tensor:
+  """Actor-only MOVE estimate; command.u_angle and all critic paths stay continuous."""
+  command = env.command_manager.get_term(command_name)
+  if smart_cube_profile is not None:
+    env._smart_cube_profile = smart_cube_profile
+  if str(env.scene.device) == 'meta':
+    return torch.zeros((env.num_envs, 2), device=env.device)
+  from .smart_cube_observations import effective_smart_cube_profile
+  profile = effective_smart_cube_profile(env, env._smart_cube_profile)
+  raw = command.object.data.joint_pos[:, command._face_driver_ids]
+  signs = torch.tensor((1, -1, 1, -1, 1, -1), device=raw.device, dtype=raw.dtype)
+  angles = step_move_model(raw * signs, get_smart_cube_state(env), profile,
+    step_id=int(env.common_step_counter))
+  face = command.target_face_id if command.cfg.solver_mode else torch.full_like(command.target_face_id, 4)
+  angle = angles.gather(1, face.unsqueeze(-1)).squeeze(-1)
+  controller = getattr(env, '_smart_cube_curriculum', None)
+  if controller is not None and controller.beta < 1:
+    continuous = (raw * signs).gather(1, face.unsqueeze(-1)).squeeze(-1)
+    angle = (1 - controller.beta) * continuous + controller.beta * angle
+  return torch.stack((torch.sin(angle), torch.cos(angle)), dim=-1)
+
+
 def rubik_face_goal_local(env, command_name: str = "reorient_command") -> torch.Tensor:
   command = env.command_manager.get_term(command_name)
   normals = FACE_NORMALS.to(device=env.device, dtype=command.u_target_angle.dtype)
-  selected = normals[command.target_face_id]
+  face_id = (
+    torch.full_like(command.target_face_id, 4)
+    if _rubik_solver_mode(command)
+    else command.target_face_id
+  )
+  selected = normals[face_id]
   return torch.where((command.phase == 0).unsqueeze(-1), selected, 0.0)
 
 
@@ -238,6 +297,7 @@ def rubik_compat_cube_orientation_error_6d(
   env,
   command_name: str = "reorient_command",
   vision_dr: bool = True,
+  smart_cube_profile: SmartCubeProfile | None = None,
 ) -> torch.Tensor:
   """Source-compatible 6D body-goal error used only by the Rubik transfer actor."""
   command = env.command_manager.get_term(command_name)
@@ -245,7 +305,9 @@ def rubik_compat_cube_orientation_error_6d(
   palm_pose_w = robot.data.body_link_pose_w[:, command.palm_body_id, :]
   palm_quat_w = palm_pose_w[:, 3:7]
   _, tag_quat_w = _palm_pose_to_tag_pose(palm_pose_w[:, :3], palm_quat_w)
-  cube_quat_tag = _rubik_cube_quat_in_tag(env, vision_dr=vision_dr)
+  cube_quat_tag = _rubik_cube_quat_in_tag(
+    env, vision_dr=vision_dr, smart_cube_profile=smart_cube_profile,
+  )
 
   palm_up_local = torch.zeros_like(palm_pose_w[:, :3])
   palm_up_local[:, 2] = 1.0
@@ -255,10 +317,14 @@ def rubik_compat_cube_orientation_error_6d(
   face_normals = FACE_NORMALS.to(
     device=env.device, dtype=cube_quat_tag.dtype
   )
-  requested_face = torch.where(
-    command.phase == 0,
-    command.target_face_id,
-    torch.full_like(command.target_face_id, 4),
+  requested_face = (
+    torch.full_like(command.target_face_id, 4)
+    if _rubik_solver_mode(command)
+    else torch.where(
+      command.phase == 0,
+      command.target_face_id,
+      torch.full_like(command.target_face_id, 4),
+    )
   )
   local_normal = face_normals[requested_face]
   current_normal_tag = quat_apply(cube_quat_tag, local_normal)
@@ -292,6 +358,29 @@ def rubik_state_privileged(env, command_name: str = "reorient_command") -> torch
   return torch.cat(
     (orientation, angle_features, goal_features, face_goal, root_goal, phase), dim=-1
   )
+
+
+def rubik_cube_position_stability_privileged(
+  env, command_name: str = "reorient_command"
+) -> torch.Tensor:
+  """Critic-only cube position and frame-to-frame translation change."""
+  command = env.command_manager.get_term(command_name)
+  palm = command.robot.data.body_link_pose_w[:, command.palm_body_id]
+  cube_pos_palm = quat_apply_inverse(
+    palm[:, 3:7], command.object.data.root_link_pos_w - palm[:, :3]
+  )
+  return torch.cat((cube_pos_palm, command.cube_position_delta.unsqueeze(-1)), dim=-1)
+
+
+def rubik_smart_move_residual_privileged(
+  env, command_name: str = "reorient_command"
+) -> torch.Tensor:
+  """Critic-only post-MOVE residual and pending flag."""
+  command = env.command_manager.get_term(command_name)
+  command.update_smart_move_pending()
+  residual = (command.u_angle_error / torch.pi).unsqueeze(-1)
+  pending = command.smart_move_pending.to(residual.dtype).unsqueeze(-1)
+  return torch.cat((residual, pending), dim=-1)
 
 
 def goal_rot_err_6d(
@@ -439,6 +528,33 @@ def joint_pos_limit_normalized(
   center = 0.5 * (soft_limits[..., 0] + soft_limits[..., 1])
   half_range = 0.5 * (soft_limits[..., 1] - soft_limits[..., 0])
   return ((joint_pos - center) / (half_range + 1e-6)).clamp(-1.0, 1.0)
+
+
+def joint_pos_limit_normalized_with_dr(
+  env, asset_cfg: SceneEntityCfg = _DEFAULT_ROBOT_CFG,
+) -> torch.Tensor:
+  """Joint observations with uniform physical-angle noise, from +/-1 to +/-3deg."""
+  from .smart_cube_curriculum import get_smart_cube_curriculum
+  normalized = joint_pos_limit_normalized(env, asset_cfg)
+  limits = env.scene[asset_cfg.name].data.soft_joint_pos_limits[:, asset_cfg.joint_ids]
+  half_range = .5 * (limits[..., 1] - limits[..., 0])
+  controller = get_smart_cube_curriculum(env)
+  if getattr(getattr(controller, 'cfg', None), 'realistic_dr', False):
+    from .smart_cube_curriculum import realistic_parameter_progress, realistic_stage_progress
+    progress = (realistic_parameter_progress(controller.realistic_progress)
+      if getattr(controller.cfg, 'realistic_success_gated', False) else
+      realistic_stage_progress(controller.realistic_steps)[0])
+    bound = math.radians(.2 + .3 * progress)
+  else:
+    bound = math.radians(1 + 2 * controller.joint_dr_progress)
+  noise = torch.empty_like(normalized).uniform_(-bound, bound)
+  env._joint_dr_observation_noise = noise / (half_range + 1e-6)
+  return normalized + env._joint_dr_observation_noise
+
+
+def joint_pos_target_error_with_dr(env, asset_cfg: SceneEntityCfg = _DEFAULT_ROBOT_CFG):
+  """Reuse the measurement sampled by the preceding noisy_joint_angles term."""
+  return joint_pos_target_error(env, asset_cfg) + env._joint_dr_observation_noise
 
 
 def root_lin_vel_w(

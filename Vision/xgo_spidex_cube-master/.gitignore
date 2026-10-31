@@ -1,0 +1,60 @@
+# Local Python environments and dependencies
+.venv/
+venv/
+env/
+
+# Python caches and packaging outputs
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+# Node.js dependencies and Vite caches
+node_modules/
+.npm/
+.vite/
+*.timestamp-*.mjs
+*.timestamp-*.js
+
+# Generated vision results, robot plans and build outputs
+outputs/
+rubiks-robot-plan.json
+build/
+dist/
+artifacts/
+
+# Test and coverage reports
+test-results/
+playwright-report/
+coverage/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Logs and temporary files
+*.log
+*.pid
+*.tmp
+*.swp
+*.swo
+*~
+
+# Local environment settings (keep shareable templates)
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.sample
+!.env.template
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini

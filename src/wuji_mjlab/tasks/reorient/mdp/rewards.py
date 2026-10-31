@@ -11,7 +11,6 @@ from mjlab.managers.scene_entity_config import SceneEntityCfg
 from mjlab.sensor import ContactSensor
 from mjlab.utils.lab_api.math import quat_error_magnitude
 
-from wuji_mjlab.tasks.reorient.mdp.event_impl.state import get_reorient_event_state
 from wuji_mjlab.tasks.reorient.mdp.contact_task_state import (
   bounded_monotonic_increment,
   box_surface_distance,
@@ -20,6 +19,7 @@ from wuji_mjlab.tasks.reorient.mdp.contact_task_state import (
   mean_budgeted_increment,
   per_finger_surface_proximity_score,
 )
+from wuji_mjlab.tasks.reorient.mdp.event_impl.state import get_reorient_event_state
 from wuji_mjlab.utils.reward_decorators import curriculum_scaled
 
 # ---------------------------------------------------------------------------
@@ -345,6 +345,66 @@ def rubik_flip_to_top_reward(
   return command.flip_to_top_achieved.float() / max(float(env.step_dt), 1e-6)
 
 
+def rubik_cube_position_stability_reward(
+  env,
+  command_name: str = "reorient_command",
+  task_kind: int = 0,
+  stable_delta_m: float = 5.0e-3,
+  unstable_delta_m: float = 1.0e-2,
+) -> torch.Tensor:
+  """Reward a contacted flip for keeping cube translation small."""
+  command = env.command_manager.get_term(command_name)
+  command.evaluate_task()
+  episode_kind = getattr(command, "episode_kind", None)
+  if episode_kind is None:
+    return torch.zeros(env.num_envs, device=env.device)
+  active = (
+    (episode_kind == task_kind)
+    & (command.phase == 0)
+    & (command.tip_contact_count >= command.cfg.min_contact_fingertips)
+    & command.cube_position_delta_valid
+    & ~env.termination_manager.get_term("cage_drop")
+  )
+  delta = command.cube_position_delta
+  score = ((unstable_delta_m - delta) / (unstable_delta_m - stable_delta_m)).clamp(-1.0, 1.0)
+  if getattr(command.cfg, 'flip_specialization', False):
+    state = command.flip_preservation
+    # Positive stability is useful during new flip progress or productive
+    # alignment/valid hold. Being still with misaligned layers does not pay.
+    productive = ((~state.settling & (command.progress_delta > 0))
+      | (state.settling & ((state.improvement > 0) | (state.hold > 0))))
+    score = torch.where(productive, score, score.clamp(max=0))
+  return torch.where(active, score, torch.zeros_like(score)) / max(float(env.step_dt), 1e-6)
+
+
+def rubik_smart_move_residual_reward(
+  env,
+  command_name: str = "reorient_command",
+  threshold_rad: float = 0.0872664626,
+  penalty_window_rad: float = 0.3490658504,
+  specialized: bool = False,
+  positive_progress_only: bool = False,
+) -> torch.Tensor:
+  """Shape the physical post-MOVE turn residual for SmartCube transfer."""
+  command = env.command_manager.get_term(command_name)
+  command.evaluate_task()
+  command.update_smart_move_pending()
+  residual = command.u_angle_error
+  positive = (1.0 - 0.5 * residual / max(threshold_rad, 1e-6)).clamp(0.5, 1.0)
+  negative = -((residual - threshold_rad) / max(penalty_window_rad, 1e-6)).clamp(0.0, 1.0)
+  score = torch.where(residual <= threshold_rad, positive, negative)
+  if specialized:
+    from .turn_specialization import residual_score
+    score = residual_score(residual)
+  if positive_progress_only:
+    score = torch.where(
+      (score > 0) & (command.turn_progress_delta <= 0),
+      torch.zeros_like(score), score,
+    )
+  active = command.smart_move_pending & (command.phase == 1)
+  return torch.where(active, score, torch.zeros_like(score)) / max(float(env.step_dt), 1e-6)
+
+
 def rubik_u_turn_success_reward(
   env,
   command_name: str = "reorient_command",
@@ -352,6 +412,20 @@ def rubik_u_turn_success_reward(
   command = env.command_manager.get_term(command_name)
   command.evaluate_task()
   return command.turn_completed.float() / max(float(env.step_dt), 1e-6)
+
+
+def rubik_turn_streak_reward(
+  env,
+  command_name: str = "reorient_command",
+) -> torch.Tensor:
+  """Pay the episode's Nth independent turn N units, only on completion."""
+  command = env.command_manager.get_term(command_name)
+  command.evaluate_task()
+  active = command.turn_completed & (command.episode_kind == 1)
+  score = torch.where(
+    active, command.turn_success_count, torch.zeros_like(command.turn_success_count)
+  )
+  return score / max(float(env.step_dt), 1e-6)
 
 
 def rubik_cube_yaw_success_reward(
@@ -457,6 +531,32 @@ def joint_vel_penalty(
   denom = max(max_velocity - vel_tolerance, 1e-6)
   vel = robot.data.joint_vel[:, asset_cfg.joint_ids]
   return torch.sum(torch.square(vel / denom), dim=-1)
+
+
+def gentle_joint_velocity_penalty(
+  env, v_ref=1., v_soft=1., coefficient: float = 0.,
+  joint_names: tuple[str, ...] = (),
+  asset_cfg: SceneEntityCfg = _DEFAULT_ROBOT_CFG,
+) -> torch.Tensor:
+  """Calibrated physical speed cost; tensors are cached, with no host sync."""
+  from .gentle_flip import _velocity_cost, gentle_state, speed_parameter
+
+  robot = env.scene[asset_cfg.name]
+  velocity = robot.data.joint_vel[:, asset_cfg.joint_ids]
+  if not hasattr(env, '_gentle_speed_tensors'):
+    if not math.isfinite(coefficient) or coefficient < 0:
+      raise ValueError('Invalid gentle velocity coefficient')
+    names = tuple(robot.joint_names)
+    if joint_names and names != tuple(joint_names):
+      raise ValueError('Gentle speed calibration joint order does not match robot')
+    ref = speed_parameter(v_ref, velocity.shape[-1], positive=True, name='v_ref')
+    soft = speed_parameter(v_soft, velocity.shape[-1], positive=False, name='v_soft')
+    env._gentle_speed_tensors = velocity.new_tensor(ref), velocity.new_tensor(soft)
+  cost = _velocity_cost(velocity, *env._gentle_speed_tensors)
+  warmup = env.action_manager.get_term('joint_pos').cfg.warmup_time_s
+  cost = torch.where(env.episode_length_buf * env.step_dt >= warmup, cost, 0.)
+  env._gentle_velocity_cost = cost
+  return cost * coefficient * gentle_state(env).speed_scale
 
 
 @curriculum_scaled

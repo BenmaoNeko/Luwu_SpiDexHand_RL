@@ -40,7 +40,7 @@ def test_continuous_task_reenables_the_approved_transfer_dr_ranges():
   assert cfg.events["object_com"].params["ranges"] == (-0.001, 0.001)
   assert cfg.events["object_size"].params["scale_range"] == (0.98, 1.02)
   assert cfg.events["object_mass"].params["scale_range"] == (0.9, 1.1)
-  assert cfg.events["robot_friction"].params["ranges"] == (0.65, 1.35)
+  assert cfg.events["robot_friction"].params["ranges"] == (0.10, 1.50)
   assert cfg.events["pd_gains"].params["kp_range"] == (0.75, 1.25)
   assert cfg.events["pd_gains"].params["kd_range"] == (0.75, 1.25)
   assert cfg.events["encoder_bias"].params["bias_range"] == (-0.015, 0.015)

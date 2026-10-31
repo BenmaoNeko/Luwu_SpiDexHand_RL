@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import pickle
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +22,29 @@ RUBIK_CONTINUOUS_TRANSFER_SOURCE_SHA256 = (
 )
 RUBIK_TRANSFER_TASK_ID = "LuwuHand_Rubik_UFace_2999Transfer"
 RUBIK_CONTINUOUS_TRANSFER_TASK_ID = "LuwuHand_Rubik_UFace_ContinuousTransfer"
-RUBIK_TRANSFER_TASK_IDS = (RUBIK_TRANSFER_TASK_ID, RUBIK_CONTINUOUS_TRANSFER_TASK_ID)
+FLIP_SPECIALIST_TASK_ID = 'LuwuHand_Rubik_FlipSpecialist'
+FLIP_LOW_FRICTION_TASK_ID = 'LuwuHand_Rubik_FlipLowFrictionTransfer'
+GENTLE_FLIP_TASK_ID = 'LuwuHand_Rubik_FlipGentleTransfer'
+BOTTOM_TIP_TASK_ID = 'LuwuHand_Rubik_FlipBottomTipTransfer'
+RUBIK_TRANSFER_TASK_IDS = (RUBIK_TRANSFER_TASK_ID, RUBIK_CONTINUOUS_TRANSFER_TASK_ID, FLIP_SPECIALIST_TASK_ID, BOTTOM_TIP_TASK_ID, FLIP_LOW_FRICTION_TASK_ID, GENTLE_FLIP_TASK_ID)
+FULL_CUBE_TRANSFER_TASK_ID = "LuwuHand_Rubik_FullCube_SolverTransfer"
+FULL_CUBE_TRANSFER_SOURCE_SHA256 = (
+  "eb858b5639320365d186c1f0891e1791e3f17bc66d33f36b3510c63079b94249"
+)
+# Later SmartCube actor-only checkpoints keep the same 204-D actor contract.
+# They are valid fine-tuning sources for the SmartCube task, while the legacy
+# solver-transfer task remains pinned to its archived source above.
+SMART_CUBE_TRANSFER_SOURCE_SHA256 = frozenset({
+  FULL_CUBE_TRANSFER_SOURCE_SHA256,
+  "00977a361252727658140c363e8720a497f58c3d48515a43fd64cff99570f4c9",  # model_4500
+  "7aab9c11f445a5dfa4d01d45b2cf368aa2854bc85b6ab6e286f1c73daceaf8ed",  # model_4650
+  "e42bb8710269553da3d7bf9df32b59cb81139718931dc447acacccf13edc4b63",  # recovery model_1150
+  "3ee3348a09740e240b0919e2f58637219e1281ab99a50ab09a3a6b9be708af72",  # turn-focus model_150
+})
+SMART_CUBE_TRANSFER_TASK_ID = 'LuwuHand_Rubik_FullCube_SmartCubeTransfer'
+FULL_CUBE_TRANSFER_TASK_IDS = (
+  FULL_CUBE_TRANSFER_TASK_ID, SMART_CUBE_TRANSFER_TASK_ID,
+)
 
 
 def _transfer_source_sha256(layout: str) -> str:
@@ -58,6 +81,44 @@ def validate_transfer_layout_args(
   resume: bool = False,
 ) -> None:
   """Keep the experimental Rubik tensor adapter opt-in and source-specific."""
+  if task_id in (FLIP_SPECIALIST_TASK_ID, BOTTOM_TIP_TASK_ID, FLIP_LOW_FRICTION_TASK_ID, GENTLE_FLIP_TASK_ID) and not resume and transfer_layout is None and checkpoint_path is not None:
+    try:
+      checkpoint = torch.load(Path(checkpoint_path), map_location='cpu', weights_only=False)
+    except (pickle.UnpicklingError, EOFError, RuntimeError) as exc:
+      raise ValueError('Invalid flip-specialist transfer checkpoint') from exc
+    actor = checkpoint.get('actor_state_dict', {})
+    first = actor.get('mlp.0.weight')
+    mean = actor.get('obs_normalizer._mean')
+    if first is None or mean is None or tuple(first.shape) != (512, 204) or mean.shape[-1] != 204:
+      raise ValueError('Flip-specialist same-width transfer requires a normalized 204-D actor')
+    return
+  if task_id in FULL_CUBE_TRANSFER_TASK_IDS:
+    if resume:
+      if checkpoint_path is not None or transfer_layout is not None:
+        raise ValueError(
+          "When resuming a full-cube Rubik run, omit actor-transfer flags; "
+          "the run checkpoint already contains the transferred Actor."
+        )
+      return
+    if checkpoint_path is None or transfer_layout is not None:
+      raise ValueError(
+        f"{task_id} requires --transfer-checkpoint-file with no --transfer-layout"
+      )
+    source_path = Path(checkpoint_path).expanduser().resolve()
+    if not source_path.is_file():
+      raise FileNotFoundError(f"Transfer checkpoint does not exist: {source_path}")
+    source_sha256 = sha256_file(source_path)
+    allowed_sources = (
+      SMART_CUBE_TRANSFER_SOURCE_SHA256
+      if task_id == SMART_CUBE_TRANSFER_TASK_ID
+      else frozenset({FULL_CUBE_TRANSFER_SOURCE_SHA256})
+    )
+    if source_sha256 not in allowed_sources:
+      raise ValueError(
+        "Full-cube Rubik transfer requires a verified 204-D actor checkpoint; "
+        f"got SHA-256 {source_sha256}"
+      )
+    return
   if task_id in RUBIK_TRANSFER_TASK_IDS:
     if resume:
       if checkpoint_path is not None or transfer_layout is not None:
@@ -168,6 +229,7 @@ def load_actor_transfer_checkpoint(
   checkpoint_path: Path,
   *,
   transfer_layout: str | None = None,
+  normalizer_prior_rollouts: int | None = None,
 ) -> dict[str, object]:
   """Load only actor weights and actor normalization buffers into ``runner``.
 
@@ -245,6 +307,17 @@ def load_actor_transfer_checkpoint(
     destination if transfer_layout in TRANSFER_LAYOUTS else actor_state,
     strict=True,
   )
+  if normalizer_prior_rollouts is not None:
+    if transfer_layout is not None or normalizer_prior_rollouts < 1:
+      raise ValueError('Normalizer prior requires same-width transfer and positive rollouts')
+    normalizer = actor.obs_normalizer
+    normalizer_prior_count = (
+      normalizer_prior_rollouts * runner.env.num_envs * runner.cfg['num_steps_per_env']
+    )
+    normalizer.count.fill_(normalizer_prior_count)
+    # Permit updates if a destination normalizer has a finite learning budget.
+    if hasattr(normalizer, 'until'):
+      normalizer.until = None
   loaded_components = ["actor"]
   if any(key.startswith("obs_normalizer.") for key in actor_state):
     loaded_components.append("actor_normalizer")
@@ -256,6 +329,9 @@ def load_actor_transfer_checkpoint(
     "skipped_components": ["critic", "optimizer", "iteration"],
     "loaded_keys": sorted(actor_state),
   }
+  if normalizer_prior_rollouts is not None:
+    metadata['normalizer_prior_count'] = normalizer_prior_count
+    metadata['normalizer_prior_rollouts'] = normalizer_prior_rollouts
   if transfer_layout is not None:
     metadata.update(
       {

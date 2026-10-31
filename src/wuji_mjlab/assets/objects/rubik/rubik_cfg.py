@@ -11,6 +11,8 @@ _ASSET_DIR = Path(__file__).resolve().parent
 _XML_PATH = _ASSET_DIR / "xmls" / "rubik_perpendicular.xml"
 _U_FACE_JOINT = "cubelet:driver:pos_z"
 _ROUNDCUBE_SOURCE_MASS_KG = 0.0921676
+_RUBIK_OUTER_FRICTION = (0.4, 0.005, 0.001)
+_RUBIK_INTERNAL_FRICTION = (0.08, 0.08, 0.001, 0.0002, 0.0002)
 
 RUBIK_MASS_KG = 0.080
 RUBIK_INIT_STATE = EntityCfg.InitialStateCfg(
@@ -27,10 +29,14 @@ RUBIK_TARGET_INIT_STATE = EntityCfg.InitialStateCfg(
 )
 
 
-def _get_spec(mass_kg: float, visual_only: bool = False) -> mujoco.MjSpec:
+def _get_spec(
+  mass_kg: float,
+  visual_only: bool = False,
+  full_cube: bool = False,
+  dynamic_layers: bool = False,
+) -> mujoco.MjSpec:
   if mass_kg <= 0.0:
     raise ValueError(f"mass_kg must be positive, got {mass_kg}")
-
   spec = mujoco.MjSpec.from_file(str(_XML_PATH))
   assets = {"roundcube.msh": (_ASSET_DIR / "meshes" / "roundcube.msh").read_bytes()}
   assets.update(
@@ -57,16 +63,48 @@ def _get_spec(mass_kg: float, visual_only: bool = False) -> mujoco.MjSpec:
   center.contype = 0
   center.conaffinity = 0
 
-  for joint in list(spec.joints):
-    name = joint.name
-    if name.startswith("cubelet:driver:"):
-      if name != _U_FACE_JOINT:
-        _add_joint_equality(spec, f"lock_{name}", name)
-    elif name.startswith("cubelet:rot"):
-      if name.startswith("cubelet:rotz:") and _in_initial_u_layer(name):
-        _add_joint_equality(spec, f"follow_u_{name}", name, _U_FACE_JOINT)
-      else:
-        _add_joint_equality(spec, f"lock_{name}", name)
+  if dynamic_layers:
+    if not full_cube or visual_only:
+      raise ValueError("Dynamic layers require a physical full cube")
+    pieces = [
+      j.name.split(":", 2)[2] for j in spec.joints if j.name.startswith("cubelet:rotx:")
+    ]
+    drivers = [j.name for j in spec.joints if j.name.startswith("cubelet:driver:")]
+    for joint in spec.joints:
+      if joint.name.startswith(("cubelet:driver:", "cubelet:rot")):
+        _add_joint_equality(spec, f"dynamic_lock_{joint.name}", joint.name)
+        spec.equality(f"dynamic_lock_{joint.name}").active = False
+    for driver in drivers:
+      face = driver.split(":", 2)[2]
+      for piece in pieces:
+        for axis in "xyz":
+          name = f"dynamic_follow_{face}:{axis}:{piece}"
+          _add_joint_equality(spec, name, f"cubelet:rot{axis}:{piece}", driver)
+          spec.equality(name).active = False
+    cubelet_geoms = sorted(
+      geom.name for geom in spec.geoms if geom.name.startswith("cubelet:")
+    )
+    for first in range(len(cubelet_geoms)):
+      for second in range(first + 1, len(cubelet_geoms)):
+        spec.add_pair(
+          name=f"internal_friction_{first}_{second}",
+          geomname1=cubelet_geoms[first],
+          geomname2=cubelet_geoms[second],
+          condim=6,
+          friction=_RUBIK_INTERNAL_FRICTION,
+        )
+
+  if not full_cube:
+    for joint in list(spec.joints):
+      name = joint.name
+      if name.startswith("cubelet:driver:"):
+        if name != _U_FACE_JOINT:
+          _add_joint_equality(spec, f"lock_{name}", name)
+      elif name.startswith("cubelet:rot"):
+        if name.startswith("cubelet:rotz:") and _in_initial_u_layer(name):
+          _add_joint_equality(spec, f"follow_u_{name}", name, _U_FACE_JOINT)
+        else:
+          _add_joint_equality(spec, f"lock_{name}", name)
 
   # Scale density uniformly to the measured 80 g cube while keeping geometry
   # and inertia ratios intact.
@@ -74,9 +112,16 @@ def _get_spec(mass_kg: float, visual_only: bool = False) -> mujoco.MjSpec:
   for geom in spec.geoms:
     if geom.density > 0.0:
       geom.density *= mass_scale
+    if dynamic_layers and geom.name.startswith("cubelet:"):
+      geom.friction = _RUBIK_OUTER_FRICTION
     if visual_only:
       geom.contype = 0
       geom.conaffinity = 0
+
+  if dynamic_layers:
+    for joint in spec.joints:
+      if joint.name.startswith(("cubelet:driver:", "cubelet:rot")):
+        joint.frictionloss *= 0.6
 
   if visual_only:
     for body in spec.bodies:
@@ -110,15 +155,25 @@ def _add_joint_equality(
   equality.data = data
 
 
-def get_rubik_cfg(*, mass_kg: float = RUBIK_MASS_KG) -> EntityCfg:
+def get_rubik_cfg(
+  *,
+  mass_kg: float = RUBIK_MASS_KG,
+  full_cube: bool = False,
+  dynamic_layers: bool = False,
+) -> EntityCfg:
   return EntityCfg(
     init_state=RUBIK_INIT_STATE,
-    spec_fn=partial(_get_spec, mass_kg),
+    spec_fn=partial(
+      _get_spec,
+      mass_kg,
+      full_cube=full_cube,
+      dynamic_layers=dynamic_layers,
+    ),
   )
 
 
-def get_rubik_target_cfg() -> EntityCfg:
+def get_rubik_target_cfg(*, full_cube: bool = False) -> EntityCfg:
   return EntityCfg(
     init_state=RUBIK_TARGET_INIT_STATE,
-    spec_fn=partial(_get_spec, RUBIK_MASS_KG, True),
+    spec_fn=partial(_get_spec, RUBIK_MASS_KG, True, full_cube),
   )

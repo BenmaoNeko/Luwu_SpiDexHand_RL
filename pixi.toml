@@ -46,6 +46,7 @@ list-envs = { cmd = "python scripts/list_envs.py", description = "List registere
 
 [environments]
 default = { solve-group = "default" }
+spidex  = { solve-group = "default" }
 deploy  = { features = ["deploy"], solve-group = "default" }
 
 [feature.deploy.pypi-dependencies]

@@ -292,7 +292,8 @@ def _build_config(run_dir: str, env_cfg: dict[str, Any] | None) -> dict[str, Any
   sim_cfg = env_cfg.get("sim", {})
   timestep = 0.01
   if isinstance(sim_cfg, dict):
-    timestep = float(sim_cfg.get("timestep", 0.01))
+    physics_cfg = sim_cfg.get('mujoco', sim_cfg)
+    timestep = float(physics_cfg.get("timestep", 0.01))
   config["ctrl_dt"] = decimation * timestep
 
   observations = env_cfg.get("observations", {})
@@ -303,6 +304,17 @@ def _build_config(run_dir: str, env_cfg: dict[str, Any] | None) -> dict[str, Any
       if history_len is not None:
         config["history_len"] = history_len
 
+  return config
+
+
+def _apply_checkpoint_runtime_config(config, checkpoint):
+  """env.yaml contains the initial EMA, not the trained schedule's final EMA."""
+  alpha = (checkpoint.get('infos') or {}).get('gentle_flip_action_ema')
+  if alpha is not None:
+    import math
+    if not math.isfinite(alpha) or not 0 < alpha <= 1:
+      raise ValueError('Invalid checkpoint EMA coefficient')
+    config['ema_alpha'] = alpha
   return config
 
 
@@ -397,7 +409,7 @@ def main() -> None:
   max_abs = np.max(np.abs(result))
   print(f"  zero-input max|output|: {max_abs:.6f}")
 
-  config = _build_config(run_dir, env_cfg)
+  config = _apply_checkpoint_runtime_config(_build_config(run_dir, env_cfg), ckpt)
   config_path = os.path.join(run_dir, "config.json")
   with open(config_path, "w") as f:
     json.dump(config, f, indent=2)

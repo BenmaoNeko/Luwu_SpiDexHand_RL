@@ -16,13 +16,13 @@ from xml.etree import ElementTree
 
 import pytest
 import torch
-from wuji_mjlab.tasks.reorient.config.wuji_hand.env_cfgs import (
-  wuji_hand_reorient_env_cfg,
-)
+from wuji_mjlab.assets.robots.luwu_hand.luwu_hand_cfg import LUWU_HAND_XML
 from wuji_mjlab.tasks.reorient.config.luwu_hand.env_cfgs import (
   luwu_hand_reorient_env_cfg,
 )
-from wuji_mjlab.assets.robots.luwu_hand.luwu_hand_cfg import LUWU_HAND_XML
+from wuji_mjlab.tasks.reorient.config.wuji_hand.env_cfgs import (
+  wuji_hand_reorient_env_cfg,
+)
 from wuji_mjlab.tasks.reorient.mdp.commands import (
   InHandReorientCommand,
   InHandReorientCommandCfg,
@@ -140,50 +140,26 @@ class TestPlayConfigOverrides:
 
 @pytest.mark.pipeline
 class TestLuwuCollisionMeshContract:
-  """The arm stays simplified while the hand uses original STL geometry."""
+  """Use supplied Spidex hand primitives with a fixed thin palm support pad."""
 
-  def test_hand_collision_meshes_use_original_stl_and_arm_keeps_hulls(self):
+  def test_hand_collision_meshes_are_replaced_by_primitives(self):
     root = ElementTree.parse(Path(LUWU_HAND_XML)).getroot()
-    mesh_files = {
-      mesh.attrib["name"]: mesh.attrib["file"]
-      for mesh in root.findall("./asset/mesh")
-    }
+    for body in root.iter("body"):
+      if body.get("name", "").startswith(("right_palm", "right_finger")):
+        for geom in body.findall("geom"):
+          if geom.get("group") == "2":
+            assert geom.get("type") in ("box", "capsule", "cylinder")
+            assert geom.get("mesh") is None
 
-    hand_mesh_names = ["link6_collision"] + [
-      f"finger{finger}_{segment}_collision"
-      for finger in range(1, 5)
-      for segment in range(4)
-    ]
-    for name in hand_mesh_names:
-      expected = name.removesuffix("_collision") + "_visual.stl"
-      assert mesh_files[name] == f"visual/{expected}", (
-        f"{name} must use original STL visual mesh, got {mesh_files[name]}"
-      )
-
-    arm_mesh_names = ["base_link_collision"] + [
-      f"link{link}_collision" for link in range(1, 6)
-    ]
-    for name in arm_mesh_names:
-      assert mesh_files[name] == f"collision/{name}_hull.stl", (
-          f"{name} must remain a convex-hull collision mesh, got {mesh_files[name]}"
-      )
-
-  def test_palm_has_a_thin_static_support_pad_in_addition_to_original_mesh(self):
+  def test_palm_uses_the_supplied_cylinder_with_a_thin_support_pad(self):
     root = ElementTree.parse(Path(LUWU_HAND_XML)).getroot()
-    support = root.find(
-      ".//body[@name='right_palm_link']/geom[@name='right_palm_support_collision']"
-    )
-
-    assert support is not None, "Luwu palm needs a dedicated support-pad collider"
-    assert support.attrib["type"] == "box"
-    assert support.attrib["contype"] == "1"
-    assert support.attrib["conaffinity"] == "1"
-    assert support.attrib["density"] == "0"
-    assert tuple(float(x) for x in support.attrib["size"].split()) == (
-      0.03,
-      0.03,
-      0.0005,
-    )
+    palm = root.find(".//body[@name='right_palm_link']")
+    collisions = [g for g in palm.findall("geom") if g.get("group") == "2"]
+    assert len(collisions) == 2
+    assert collisions[0].get("type") == "cylinder"
+    assert tuple(map(float, collisions[0].get("size").split())) == (0.03, 0.028)
+    assert collisions[1].get("name") == "right_palm_support_collision"
+    assert collisions[1].get("type") == "cylinder"
 
 
 @pytest.mark.pipeline

@@ -6,13 +6,12 @@ from types import SimpleNamespace
 
 import pytest
 import torch
-
+from wuji_mjlab.rl import transfer as transfer_module
 from wuji_mjlab.rl.transfer import (
   load_actor_transfer_checkpoint,
   validate_transfer_layout_args,
   validate_transfer_resume_args,
 )
-from wuji_mjlab.rl import transfer as transfer_module
 
 
 class _Policy(torch.nn.Module):
@@ -71,6 +70,21 @@ def test_actor_transfer_loads_policy_and_reports_skipped_components(tmp_path):
   assert metadata["loaded_components"] == ["actor", "actor_normalizer"]
   assert metadata["skipped_components"] == ["critic", "optimizer", "iteration"]
   assert len(metadata["checkpoint_sha256"]) == 64
+
+
+def test_smart_cube_transfer_reduces_count_preserving_moments_and_weights(tmp_path):
+  source = _TransferActor(204)
+  source.obs_normalizer.count.fill_(493158400)
+  source.obs_normalizer._mean.fill_(0.3)
+  checkpoint = tmp_path / 'model_2999.pt'
+  _checkpoint(checkpoint, source)
+  target = _TransferActor(204)
+  runner = _rubik_transfer_runner(target)
+  metadata = load_actor_transfer_checkpoint(runner, checkpoint, normalizer_prior_rollouts=10)
+  assert target.obs_normalizer.count == 80
+  assert torch.equal(target.obs_normalizer._mean, source.obs_normalizer._mean)
+  assert torch.equal(target.mlp[0].weight, source.mlp[0].weight)
+  assert metadata['normalizer_prior_count'] == 80
 
 
 def test_actor_transfer_reports_missing_and_shape_mismatch_keys(tmp_path):
@@ -324,3 +338,16 @@ def test_actor_transfer_monitor_reports_action_and_normalizer_drift():
   assert metrics["legacy_prefix_mean_delta_rms"] > 0.0
   assert metrics["rubik_channels_std_rms"] > 0.0
   assert metrics["normalizer_count"] == 100.0
+
+
+def test_flip_specialist_accepts_same_width_actor_for_new_dr(tmp_path):
+  import torch
+  from wuji_mjlab.rl.transfer import validate_transfer_layout_args
+  path = tmp_path / 'latest.pt'
+  torch.save({'actor_state_dict': {'mlp.0.weight': torch.zeros(512, 204),
+    'obs_normalizer._mean': torch.zeros(1, 204)}}, path)
+  validate_transfer_layout_args('LuwuHand_Rubik_FlipSpecialist', path, None)
+  torch.save({'actor_state_dict': {'mlp.0.weight': torch.zeros(512, 162),
+    'obs_normalizer._mean': torch.zeros(1, 162)}}, path)
+  with pytest.raises(ValueError, match='204'):
+    validate_transfer_layout_args('LuwuHand_Rubik_FlipSpecialist', path, None)

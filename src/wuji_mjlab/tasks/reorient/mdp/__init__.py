@@ -26,6 +26,7 @@ from .metrics import *  # noqa: F401,F403
 from .observations import *  # noqa: F401,F403
 from .rewards import *  # noqa: F401,F403
 from .rubik_command import *  # noqa: F401,F403
+from .rubik_full_cube import *  # noqa: F401,F403
 from .terminations import *  # noqa: F401,F403
 from .types import *  # noqa: F401,F403
 from .vision_observations import *  # noqa: F401,F403

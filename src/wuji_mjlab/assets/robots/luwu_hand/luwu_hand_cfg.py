@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-"""MJLab configuration for the fixed-arm Luwu four-finger hand."""
+"""MJLab configuration for the fixed, horizontal Luwu four-finger hand."""
 
 from functools import partial
 from pathlib import Path

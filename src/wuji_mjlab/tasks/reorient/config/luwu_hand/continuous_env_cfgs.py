@@ -99,7 +99,7 @@ def luwu_hand_continuous_faces_env_cfg(
     cfg.events["object_com"].params["ranges"] = (-0.001, 0.001)
     cfg.events["object_size"].params["scale_range"] = (0.98, 1.02)
     cfg.events["object_mass"].params["scale_range"] = (0.9, 1.1)
-    cfg.events["robot_friction"].params["ranges"] = (0.65, 1.35)
+    cfg.events["robot_friction"].params["ranges"] = (0.10, 1.50)
     cfg.events["pd_gains"].params.update(
       kp_range=(0.75, 1.25),
       kd_range=(0.75, 1.25),

@@ -15,6 +15,7 @@ before invoking ``self.logger.save_model`` so they honor the same gate.
 from __future__ import annotations
 
 from mjlab.rl import MjlabOnPolicyRunner
+
 from wuji_mjlab.rl.transfer import ActorTransferMonitor
 
 
@@ -87,11 +88,39 @@ class WujiOnPolicyRunner(MjlabOnPolicyRunner):
     # the W&B upload conditionally. This avoids re-implementing the parent's
     # local-checkpoint logic, which is fragile against upstream mjlab changes.
     original = self.cfg.get("upload_model")
+    controller = getattr(self.env.unwrapped, '_smart_cube_curriculum', None)
+    if controller is not None:
+      infos = {**(infos or {}), 'smart_cube_curriculum': {
+        k: v for k, v in vars(controller).items() if k != 'cfg'
+      }}
+    from wuji_mjlab.tasks.reorient.mdp.gentle_flip import gentle_checkpoint_metadata
+    infos = {**(infos or {}), **gentle_checkpoint_metadata(self.env.unwrapped)}
     self.cfg["upload_model"] = self.should_upload_artifact()
     try:
       super().save(path, infos)
     finally:
       self.cfg["upload_model"] = original
+
+  def load(self, path, load_cfg=None, strict=True, map_location=None):
+    infos = super().load(path, load_cfg, strict, map_location)
+    if load_cfg is None or load_cfg.get('iteration', False):
+      # Saved iteration is the last completed update, not the next one.
+      self.current_learning_iteration += 1
+      controller = getattr(self.env.unwrapped, '_smart_cube_curriculum', None)
+      state = (infos or {}).get('smart_cube_curriculum')
+      if controller is not None and state is not None:
+        for name, value in state.items():
+          if name in vars(controller) and name != 'cfg':
+            setattr(controller, name, value)
+        if hasattr(controller, 'joint_dr_last_step') and 'joint_dr_progress' not in state:
+          # A legacy run has no joint-error curriculum. Start at zero using
+          # restored cumulative counters as the baseline, never past outcomes.
+          controller.joint_dr_last_step = self.env.unwrapped.common_step_counter
+          controller.joint_dr_last_totals = (
+            controller.low_friction_skill_attempts, controller.low_friction_skill_successes)
+      from wuji_mjlab.tasks.reorient.mdp.gentle_flip import restore_gentle_checkpoint
+      restore_gentle_checkpoint(self.env.unwrapped, infos)
+    return infos
 
   def should_upload_artifact(self) -> bool:
     """Whether the current iteration is eligible for a W&B artifact upload.

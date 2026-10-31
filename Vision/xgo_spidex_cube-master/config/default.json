@@ -1,0 +1,136 @@
+{
+  "cube_size_mm": 56.0,
+  "camera": {
+    "model": "D435i RGB approximate FOV placeholder; NOT device calibration",
+    "calibrated": false,
+    "reference_size": [
+      960,
+      1280
+    ],
+    "matrix": [
+      [
+        925.0,
+        0.0,
+        479.5
+      ],
+      [
+        0.0,
+        925.0,
+        639.5
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "distortion": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "allow_resize": true
+  },
+  "colors": {
+    "blue": {
+      "rgb": [
+        0,
+        140,
+        215
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "hue_tolerance": 19,
+      "min_saturation": 150,
+      "min_value": 45
+    },
+    "red": {
+      "rgb": [
+        240,
+        10,
+        35
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "hue_tolerance": 13,
+      "min_saturation": 185,
+      "min_value": 45
+    },
+    "yellow": {
+      "rgb": [
+        245,
+        190,
+        0
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "hue_tolerance": 10,
+      "min_saturation": 190,
+      "min_value": 70
+    },
+    "green": {
+      "rgb": [
+        155,
+        230,
+        0
+      ],
+      "axis": [
+        -1,
+        0,
+        0
+      ],
+      "hue_tolerance": 19,
+      "min_saturation": 170,
+      "min_value": 65
+    },
+    "purple": {
+      "rgb": [
+        125,
+        20,
+        135
+      ],
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "hue_tolerance": 20,
+      "min_saturation": 130,
+      "min_value": 35
+    },
+    "white": {
+      "rgb": [
+        235,
+        240,
+        225
+      ],
+      "axis": [
+        0,
+        0,
+        -1
+      ],
+      "max_saturation": 60,
+      "min_value": 185
+    }
+  },
+  "detection": {
+    "max_image_side": 640,
+    "minimum_region_area": 160,
+    "edge_tolerance_px": 3.0,
+    "minimum_edge_support": 0.52,
+    "minimum_center_colors": 2,
+    "max_candidates": 20,
+    "occlusion_trim_fraction": 0.18
+  }
+}

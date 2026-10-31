@@ -271,7 +271,7 @@
 
             <body name="body:pos_x_neg_y">
                 <body name="cubelet:pos_x_neg_y" pos="0.01905 -0.01905 0.0" >
-                    <geom type="mesh" mesh="rounded_cube" size="0.01 0.01 0.01" material="material201"/>
+                    <geom name="cubelet:pos_x_neg_y" type="mesh" mesh="rounded_cube" size="0.01 0.01 0.01" material="material201"/>
                 </body>
 
                 <joint name="cubelet:rotx:pos_x_neg_y"   type="hinge" pos="0 0 0" axis="1 0 0"/>

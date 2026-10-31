@@ -57,3 +57,19 @@ def test_continuous_transfer_only_adds_turn_progress_reward():
   assert "rubik_u_turn_progress" not in old.rewards
   assert new.rewards["rubik_u_turn_progress"].weight == 5.0
   assert tuple(new.observations["policy"].terms) == tuple(old.observations["policy"].terms)
+
+
+def test_full_cube_flip_uses_position_stability_and_strict_hold_contract():
+  from wuji_mjlab.tasks.reorient.config.luwu_hand.rubik_env_cfg import (
+    luwu_hand_rubik_full_cube_solver_transfer_env_cfg,
+  )
+
+  cfg = luwu_hand_rubik_full_cube_solver_transfer_env_cfg(num_envs=4)
+  command = cfg.commands["reorient_command"]
+  assert command.continuous_flip_hold_steps == 10
+  assert command.continuous_flip_angle_tolerance_rad == torch.pi / 45
+  assert cfg.rewards["rubik_flip_to_top"].weight == 20.0
+  assert cfg.rewards["rubik_cube_position_stability"].weight == 1.0
+  assert cfg.rewards["rubik_cube_position_stability"].params["stable_delta_m"] == 5.0e-3
+  assert cfg.rewards["rubik_cube_position_stability"].params["unstable_delta_m"] == 1.0e-2
+  assert "rubik_cube_position_stability" in cfg.observations["critic"].terms
